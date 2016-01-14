@@ -1,0 +1,111 @@
+.skin-index .dot{
+	width:120px;
+	height:120px;
+	border-radius:100px;
+	padding:35px 5px;
+	background:#09a3ee;
+	cursor:pointer;
+	margin:0 auto;
+}
+.skin-index .dot h1,
+.skin-index .dot h3{
+	color:#fff;
+	margin:0;
+}
+
+/* Step 1 */
+.skin-index.step1 .dot{
+	position:absolute;
+	top:50%;
+	margin-top:-100px;
+	left:50%;
+	margin-left:-60px;
+}
+
+/* Step 2 */
+.skin-index.step2 .form-holder input{
+	padding-right:40px;
+	padding-top:8px;
+	height:40px;
+	border-radius:0;
+}
+.skin-index.step2 .form-holder .go-link{
+	position:absolute;
+	top:0px;
+	right:0px;
+	padding:9px 11px 6px;
+	font-size:14px;
+	line-height:25px;
+	cursor:pointer;
+}
+.skin-index.step2 .city-list{
+	padding:0 10px;
+}
+.skin-index.step2 .city-list p{
+	margin-bottom:6px;
+}
+
+/* Step 3 */
+.skin-index.step3 .dot{
+	padding:22px 5px;
+}
+.skin-index.step3 .dot h1{
+	font-size:85px;
+	line-height:94px;
+}
+.skin-index.step3 h1{
+	font-size:56px;
+	line-height:56px;
+	margin-top:30px;
+}
+.skin-index.step3 h1 span{
+	font-size:36px;
+	position:relative;
+	top:-13px;
+}
+.skin-index.step3 h5{
+	font-size:15px;
+}
+.skin-index.step3 .steps{
+	margin:15px auto;
+	width:290px;
+}
+.skin-index.step3 .steps .step{
+	display:block;
+	text-align:left;
+}
+.skin-index.step3 .steps .step + .step{
+	margin-top:10px;
+}
+.skin-index.step3 .steps .step .num.dot{
+	width:36px;
+	height:36px;
+	border-radius:100px;
+	padding:8px;
+	background:#09a3ee;
+	margin-right:15px;
+	text-align:center;
+}
+.skin-index.step3 .steps .step p{
+	position:relative;
+	top:5px;
+	font-size:15px;
+}
+
+/* Overlay */
+.message-overlay{
+	position:absolute; 
+	top:50%; 
+	left:50%;
+	width:220px;
+	margin-top:-70px;
+	margin-left:-110px; 
+	z-index:20;
+	background:#fff;
+	
+}
+.message-overlay .bottom a{
+	display:block;
+	width:100%;
+	padding:5px 5px 4px;
+}
