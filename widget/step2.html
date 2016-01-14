@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>    
+	<!-- CSS -->
+	<link href="css/style.css" rel="stylesheet">
+	<link href="../../../../styles/helper.css" rel="stylesheet">
+	<link href="../../../../styles/siteIcons.css" rel="stylesheet">
+	
+	<!-- JS -->
+	<script src="../../../../scripts/buildfire.js"></script>
+
+	<!-- Meta -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<div class="holder padding-zero">
+		<div class="skin-index text-left step2">
+			<div class="form-holder">
+				<input type="text" class="zip-code border-none form-control" placeholder="Enter zip code">
+				<span onclick="alert('submit form');" class="go-link text-primary">Go</span>
+				<hr class="small margin-top-zero">
+			</div>
+			<div class="city-list">
+				<p><span class="icon icon-map-marker"></span> Use Current Location</p>
+				<p>92003<span class="margin-left-thirty">City Name</span></p>
+				<p>92004<span class="margin-left-thirty">City Name</span></p>
+				<p>92005<span class="margin-left-thirty">City Name</span></p>
+				<p>92006<span class="margin-left-thirty">City Name</span></p>
+				<p>92007<span class="margin-left-thirty">City Name</span></p>
+			</div>
+		</div>
+		<div class="message-overlay border-grey border-radius-four">
+			<div class="message padded">
+					<p class="margin-zero text-center">We cannot locate that zip code. Please try again.</p>
+				</div>
+				<div class="bottom border-top-grey text-center">
+					<a>OK</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
