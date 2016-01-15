@@ -28,6 +28,21 @@
           console.log("WidgetLocation.getCurrentLocation called");
           var locationPromise=Location.getCurrentLocation();
           locationPromise.then(function(response){
+            var geocoder = new google.maps.Geocoder;
+            var latlng = {lat: parseFloat(response.coords.latitude), lng: parseFloat(response.coords.longitude)};
+            geocoder.geocode({'location': latlng}, function(results, status) {
+              if (status === google.maps.GeocoderStatus.OK) {
+                if (results[1]) {
+                  console.log(results[1].formatted_address);
+                  WidgetLocation.currentLocation=results[1].formatted_address;
+                  $scope.$digest();
+                } else {
+                  console.log('No results found');
+                }
+              } else {
+                console.log('Geocoder failed due to: ' + status);
+              }
+            });
 
           },function(err){
 
