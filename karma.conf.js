@@ -1,4 +1,5 @@
 // Karma configuration
+// Generated on Wed Sep 02 2015 14:15:39 GMT+0530 (IST)
 
 module.exports = function(config) {
     config.set({
@@ -22,11 +23,11 @@ module.exports = function(config) {
             'test/assets/bower_components/owlcarousel/owl-carousel/owl.carousel.min.js',
             'test/assets/bower_components/tinymce/tinymce.min.js',
             'test/assets/bower_components/angular-mocks/angular-mocks.js',
-            'test/assets/*.js',
-            'control/content/**/*.js',
+            'test/control/**/*.js',
+            'control/design/*.js',
             'control/design/**/*.js',
-            'widget/**/*.js',
-            'test/**/*.spec.js'
+            'widget/**/*.js'
+
         ],
 
         // list of files to exclude
@@ -36,7 +37,14 @@ module.exports = function(config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            'widget/**/*.js': ['coverage']
+            'widget/**/!(js)/*.js': ['coverage'],
+            'widget/*.js': ['coverage'],
+            'control/design/**/!(js)/*.js': ['coverage'],
+            'control/design/*.js': ['coverage'],
+            'control/content/**/!(js)/*.js': ['coverage'],
+            'control/content/*.js': ['coverage'],
+            'control/settings/**/!(js)/*.js': ['coverage'],
+            'control/settings/*.js': ['coverage']
         },
         plugins: [
             'karma-phantomjs-launcher',
@@ -80,4 +88,4 @@ module.exports = function(config) {
         // if true, Karma captures browsers, runs the tests and exits
         singleRun: false
     });
-};
+}

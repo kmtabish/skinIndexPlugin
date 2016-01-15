@@ -1,6 +1,6 @@
 'use strict';
 
-(function (angular,buildfire) {
+(function (angular,window) {
     angular
         .module('skinIndexPluginDesign')
         .controller('DesignHomeCtrl', ['COLLECTIONS','DB','$scope', '$timeout', 'Buildfire','skinIndexInfo', function (COLLECTIONS,DB,$scope, $timeout, Buildfire,skinIndexInfo) {
@@ -90,4 +90,4 @@
             }, updatefn, true);
 
         }]);
-})(window.angular,buildfire);
+})(window.angular,window);
