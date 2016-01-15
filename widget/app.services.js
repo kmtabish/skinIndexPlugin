@@ -95,4 +95,22 @@
         }
       };
     }])
+      .factory("Location",['Buildfire', '$q',function(Buildfire,$q){
+        return{
+          getCurrentLocation :function(){
+            var deferred = $q.defer();
+            Buildfire.geo.getCurrentPosition(
+                null,
+                function (err,position) {
+                  if (err)
+                    deferred.reject(err);
+                  else
+                    deferred.resolve(position);
+                }
+            );
+            return deferred.promise;
+          }
+        }
+
+      }])
 })(window.angular, window.buildfire);

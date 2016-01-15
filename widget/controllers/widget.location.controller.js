@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('skinIndexPluginWidget')
-    .controller('WidgetLocationCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'ViewStack',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack) {
+    .controller('WidgetLocationCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'ViewStack','Location',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack,Location) {
         var WidgetLocation = this;
         WidgetLocation.getWeatherData = function () {
           ViewStack.push({
@@ -23,5 +23,16 @@
           WidgetLocation.currentCoordinates = WidgetLocation.data.widget.address.location_coordinates;
           $scope.$digest();
         };
+
+        WidgetLocation.getCurrentLocation=function(){
+          console.log("WidgetLocation.getCurrentLocation called");
+          var locationPromise=Location.getCurrentLocation();
+          locationPromise.then(function(response){
+
+          },function(err){
+
+          });
+        }
+
       }]);
 })(window.angular);
