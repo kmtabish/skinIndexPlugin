@@ -1,44 +1,74 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('skinIndexPluginDesign')
-    .provider('Buildfire', [function () {
-      var Buildfire = this;
-      Buildfire.$get = function () {
-        return buildfire
-      };
-      return Buildfire;
-    }])
-    .factory("DataStore", ['Buildfire', '$q', 'STATUS_CODE', 'STATUS_MESSAGES', function (Buildfire, $q, STATUS_CODE, STATUS_MESSAGES) {
-      return {
-        get: function (_tagName) {
-          var deferred = $q.defer();
-          Buildfire.datastore.get(_tagName, function (err, result) {
-            if (err) {
-              return deferred.reject(err);
-            } else if (result) {
-              return deferred.resolve(result);
+    angular.module('skinIndexPluginDesign')
+        .provider('Buildfire', [function () {
+            var Buildfire = this;
+            Buildfire.$get = function () {
+                return buildfire
+            };
+            return Buildfire;
+        }])
+        .factory("DB", ['Buildfire', '$q', 'MESSAGES', 'CODES', function (Buildfire, $q, MESSAGES, CODES) {
+            function DB(tagName) {
+                this._tagName = tagName;
             }
-          });
-          return deferred.promise;
-        },
-        save: function (_item, _tagName) {
-          var deferred = $q.defer();
-          if (typeof _item == 'undefined') {
-            return deferred.reject(new Error({
-              code: STATUS_CODE.UNDEFINED_DATA,
-              message: STATUS_MESSAGES.UNDEFINED_DATA
-            }));
-          }
-          Buildfire.datastore.save(_item, _tagName, function (err, result) {
-            if (err) {
-              return deferred.reject(err);
-            } else if (result) {
-              return deferred.resolve(result);
-            }
-          });
-          return deferred.promise;
-        }
-      }
-    }])
+
+            DB.prototype.get = function () {
+                var that = this;
+                var deferred = $q.defer();
+                Buildfire.datastore.get(that._tagName, function (err, result) {
+                    if (err && err.code == CODES.NOT_FOUND) {
+                        return deferred.resolve();
+                    }
+                    else if (err) {
+                        return deferred.reject(err);
+                    }
+                    else {
+                        return deferred.resolve(result);
+                    }
+                });
+                return deferred.promise;
+            };
+            DB.prototype.update = function (id, item) {
+                var that = this;
+                var deferred = $q.defer();
+                if (typeof id == 'undefined') {
+                    return deferred.reject(new Error(MESSAGES.ERROR.ID_NOT_DEFINED));
+                }
+                if (typeof item == 'undefined') {
+                    return deferred.reject(new Error(MESSAGES.ERROR.DATA_NOT_DEFINED));
+                }
+                Buildfire.datastore.update(id, item, that._tagName, function (err, result) {
+                    if (err) {
+                        return deferred.reject(err);
+                    }
+                    else if (result) {
+                        return deferred.resolve(result);
+                    } else {
+                        return deferred.reject(new Error(MESSAGES.ERROR.NOT_FOUND));
+                    }
+                });
+                return deferred.promise;
+            };
+            DB.prototype.save = function (item) {
+                var that = this;
+                var deferred = $q.defer();
+                if (typeof item == 'undefined') {
+                    return deferred.reject(new Error(MESSAGES.ERROR.DATA_NOT_DEFINED));
+                }
+                Buildfire.datastore.save(item, that._tagName, function (err, result) {
+                    if (err) {
+                        return deferred.reject(err);
+                    }
+                    else if (result) {
+                        return deferred.resolve(result);
+                    } else {
+                        return deferred.reject(new Error(MESSAGES.ERROR.NOT_FOUND));
+                    }
+                });
+                return deferred.promise;
+            };
+            return DB;
+        }]);
 })(window.angular, window.buildfire);
