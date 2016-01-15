@@ -1,13 +1,13 @@
 'use strict';
 (function (angular) {
   angular
-    .module('skinIndexPluginDesign', ['ngRoute'])
+    .module('skinIndexPluginSettings', ['ngRoute'])
     .config(['$routeProvider', function ($routeProvider) {
       $routeProvider
         .when('/', {
           templateUrl: 'templates/home.html',
-          controllerAs: 'DesignHome',
-          controller: 'DesignHomeCtrl'
+          controllerAs: 'SettingsHome',
+          controller: 'SettingsHomeCtrl'
         })
         .otherwise('/');
     }])

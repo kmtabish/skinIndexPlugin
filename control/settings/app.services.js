@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular, buildfire) {
-  angular.module('skinIndexPluginDesign')
+  angular.module('skinIndexPluginSettings')
     .provider('Buildfire', [function () {
       var Buildfire = this;
       Buildfire.$get = function () {

@@ -1,7 +1,7 @@
 'use strict';
 
 (function (angular) {
-  angular.module('skinIndexPluginDesign')
+  angular.module('skinIndexPluginSettings')
     .constant('TAG_NAMES', {
       UVO_INFO: 'uvoInfo'
     })
