@@ -2,16 +2,16 @@
   "author":"BuildFire"
 ,"pluginName":"Skin Index"
 ,"pluginDescription":"A plugin that uses a public weather API to calculate maximum sun exposure."
-,"supportEmail":"[Your support Email]"
+,"supportEmail":"support@buildfire.com"
 ,"control":{
   "content":{
-    "enabled":true
+    "enabled":false
   }
 , "design":{
     "enabled":true
   }
 , "settings":{
-    "enabled":false
+    "enabled":true
   }
 }
 ,"widget":{

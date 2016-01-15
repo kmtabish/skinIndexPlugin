@@ -5,7 +5,7 @@
         .constant('TAG_NAMES', {
         UVO_INFO: 'uvoInfo'
         })
-        .constant('STATUS_CODE', {
+        .constant('CODES', {
             INSERTED: 'inserted',
             UPDATED: 'updated',
             NOT_FOUND: 'NOTFOUND',
@@ -15,11 +15,15 @@
             ITEM_ARRAY_FOUND: 'ITEM_ARRAY_FOUND',
             NOT_ITEM_ARRAY: 'NOT_ITEM_ARRAY'
         })
-        .constant('STATUS_MESSAGES', {
+        .constant('MESSAGES', {
             UNDEFINED_DATA: 'Undefined data provided',
             UNDEFINED_OPTIONS: 'Undefined options provided',
             UNDEFINED_ID: 'Undefined id provided',
             NOT_ITEM_ARRAY: 'Array of Items not provided',
             ITEM_ARRAY_FOUND: 'Array of Items provided'
+        })
+        .constant('COLLECTIONS', {
+            BGImageURL: "skinIndexBGImage",
+            skinIndexInfo: "skinIndexInfo"
         })
 })(window.angular);
