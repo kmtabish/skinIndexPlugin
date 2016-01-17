@@ -3,7 +3,7 @@
 (function (angular,window) {
     angular
         .module('skinIndexPluginDesign')
-        .controller('DesignHomeCtrl', ['COLLECTIONS','DB','$scope', '$timeout', 'Buildfire','skinIndexInfo', function (COLLECTIONS,DB,$scope, $timeout, Buildfire,skinIndexInfo) {
+        .controller('DesignHomeCtrl', ['TAG_NAMES','DB','$scope', '$timeout', 'Buildfire','uvoInfo', function (TAG_NAMES,DB,$scope, $timeout, Buildfire,uvoInfo) {
             var DesignHome = this,
                 _data = {
 
@@ -14,26 +14,26 @@
                 };
             var background = new Buildfire.components.images.thumbnail("#background");
 
-            if (skinIndexInfo) {
-                DesignHome.skinIndexInfo = skinIndexInfo;
-                DesignHome._lastSaved = angular.copy(DesignHome.skinIndexInfo);
+            if (uvoInfo) {
+                DesignHome.uvoInfo = uvoInfo;
+                DesignHome._lastSaved = angular.copy(DesignHome.uvoInfo);
             }
             else {
-                DesignHome.skinIndexInfo = {data: angular.copy(_data)};
-                DesignHome._lastSaved = angular.copy(DesignHome.skinIndexInfo);
+                DesignHome.uvoInfo = {data: angular.copy(_data)};
+                DesignHome._lastSaved = angular.copy(DesignHome.uvoInfo);
             }
 
-            if (DesignHome.skinIndexInfo.data && DesignHome.skinIndexInfo.data.design && DesignHome.skinIndexInfo.data.design.secListBGImage) {
-                background.loadbackground(DesignHome.skinIndexInfo.data.design.secListBGImage);
+            if (DesignHome.uvoInfo.data && DesignHome.uvoInfo.data.design && DesignHome.uvoInfo.data.design.secListBGImage) {
+                background.loadbackground(DesignHome.uvoInfo.data.design.secListBGImage);
             }
 
             var tmrDelay=null;
-            DesignHome._skinIndexInfo = new DB(COLLECTIONS.skinIndexInfo);
+            DesignHome._uvoInfo = new DB(TAG_NAMES.UVO_INFO);
 
             background.onChange = function (url) {
 
 
-                DesignHome.skinIndexInfo.data.design.secListBGImage = url;
+                DesignHome.uvoInfo.data.design.secListBGImage = url;
                     console.log('DesignHomeCtrl bfURL saved :');
                     if (!$scope.$$phase && !$scope.$root.$$phase) {
                         $scope.$apply();
@@ -45,7 +45,7 @@
 
 
             background.onDelete = function (url) {
-                DesignHome.skinIndexInfo.data.design.secListBGImage = url;
+                DesignHome.uvoInfo.data.design.secListBGImage = url;
                 if (!$scope.$$phase && !$scope.$root.$$phase) {
                     $scope.$apply();
                 }
@@ -66,16 +66,16 @@
                     }
                     if (newObj.id) {
                         tmrDelay = $timeout(function () {
-                            DesignHome._skinIndexInfo.update(newObj.id, newObj.data).then(function (result) {
-                                DesignHome._lastSaved = angular.copy(DesignHome.skinIndexInfo);
+                            DesignHome._uvoInfo.update(newObj.id, newObj.data).then(function (result) {
+                                DesignHome._lastSaved = angular.copy(DesignHome.uvoInfo);
                             }, function (err) {
                                 console.log(err);
-                                DesignHome.skinIndexInfo = angular.copy(DesignHome._lastSaved);
+                                DesignHome.uvoInfo = angular.copy(DesignHome._lastSaved);
                             });
                         }, 500);
                     } else {
                         tmrDelay = $timeout(function () {
-                            DesignHome._skinIndexInfo.save(DesignHome.skinIndexInfo.data).then(function success(result) {
+                            DesignHome._uvoInfo.save(DesignHome.uvoInfo.data).then(function success(result) {
                             }, function fail(err) {
                                 console.log(err);
                             });
@@ -86,7 +86,7 @@
 
 
             $scope.$watch(function () {
-                return DesignHome.skinIndexInfo;
+                return DesignHome.uvoInfo;
             }, updatefn, true);
 
         }]);

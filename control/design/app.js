@@ -9,7 +9,7 @@
                     controllerAs: 'DesignHome',
                     controller: 'DesignHomeCtrl',
                     resolve: {
-                        skinIndexInfo: ['DB', 'COLLECTIONS', '$q', function (DB, COLLECTIONS, $q) {
+                        uvoInfo: ['DB', 'COLLECTIONS', '$q', function (DB, COLLECTIONS, $q) {
                             var skinIndexInfo = new DB(COLLECTIONS.skinIndexInfo)
                                 , deferred = $q.defer()
                                 , success = function (result) {
