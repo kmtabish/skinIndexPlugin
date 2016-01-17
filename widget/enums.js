@@ -3,7 +3,8 @@
 (function (angular) {
   angular.module('skinIndexPluginWidget')
     .constant('TAG_NAMES', {
-      UVO_INFO: 'uvoInfo'
+      UVO_INFO: 'uvoInfo',
+      SKIN_INDEX_INFO:'skinIndexInfo'
     })
     .constant('STATUS_CODE', {
       INSERTED: 'inserted',

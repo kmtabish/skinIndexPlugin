@@ -1,7 +1,7 @@
 'use strict';
 (function (angular) {
   angular
-    .module('skinIndexPluginWidget', ['ngRoute'])
+    .module('skinIndexPluginWidget', ['ngRoute','skinIndexModals'])
     .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
 
       /**
