@@ -89,6 +89,40 @@
           }
         };
       }])
+      .filter('cropImage', [function () {
+        return function (url, width, height, noDefault) {
+          if (noDefault) {
+            if (!url)
+              return '';
+          }
+          return buildfire.imageLib.cropImage(url, {
+            width: width,
+            height: height
+          });
+        };
+      }])
+      .directive('backImg', ["$filter", "$rootScope", function ($filter, $rootScope) {
+        return function (scope, element, attrs) {
+          attrs.$observe('backImg', function (value) {
+            var img = '';
+            if (value) {
+              img = $filter("cropImage")(value, $rootScope.deviceWidth, $rootScope.deviceHeight, true);
+              element.attr("style", 'background:url(' + img + ') !important');
+              element.css({
+                'background-size': 'cover',
+                'height':'100%'
+              });
+            }
+            else {
+              img = "";
+              element.attr("style", 'background-color:white');
+              element.css({
+                'background-size': 'cover'
+              });
+            }
+          });
+        };
+      }])
     .directive('googleLocationSearch', function () {
       return {
         restrict: 'A',

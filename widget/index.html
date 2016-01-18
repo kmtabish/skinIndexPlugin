@@ -19,17 +19,15 @@
   <script src="app.js"></script>
   <script src="enums.js"></script>
   <script src="app.services.js"></script>
-  <script src="filter.js"></script>
   <script src="controllers/widget.home.controller.js"></script>
   <script src="controllers/widget.weather.controller.js"></script>
   <script src="controllers/widget.location.controller.js"></script>
   <script
       src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 </head>
-<body
-    style="">
-<div ng-controller="WidgetHomeCtrl as WidgetHome" class="slide content">
-  <div ng-include="'templates/Home.html'">
+<body class="body-scroll slide ">
+<div ng-controller="WidgetHomeCtrl as WidgetHome" class="slide content" data-back-img="{{itemDetailsBackgroundImage}}">
+  <div   ng-include="'templates/Home.html'">
   </div>
 </div>
 <div view-switcher=""></div>
