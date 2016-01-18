@@ -4,7 +4,7 @@
   angular.module('skinIndexPluginWidget')
     .constant('TAG_NAMES', {
       UVO_INFO: 'uvoInfo',
-      SKIN_INDEX_INFO:'skinIndexInfo'
+      SKIN_INDEX_INFO: 'skinIndexInfo'
     })
     .constant('STATUS_CODE', {
       INSERTED: 'inserted',
@@ -22,5 +22,8 @@
       UNDEFINED_ID: 'Undefined id provided',
       NOT_ITEM_ARRAY: 'Array of Items not provided',
       ITEM_ARRAY_FOUND: 'Array of Items provided'
+    })
+    .constant('WEATHER_UNDERGROUND', {
+      API_KEY: '9a2afe49784d882f'
     })
 })(window.angular);
