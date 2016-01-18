@@ -32,7 +32,7 @@
 
         WidgetLocation.getWeatherData = function () {
           ViewStack.push({
-            template: 'Info'
+            template: 'Weather'
           });
         };
 

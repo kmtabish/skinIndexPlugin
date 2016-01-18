@@ -81,7 +81,7 @@
         hasViews: function () {
           return !!views.length;
         },
-        getPreviousView: function() {
+        getPreviousView: function () {
           return views.length && views[views.length - 2] || {};
         },
         getCurrentView: function () {
@@ -95,22 +95,52 @@
         }
       };
     }])
-      .factory("Location",['Buildfire', '$q',function(Buildfire,$q){
-        return{
-          getCurrentLocation :function(){
-            var deferred = $q.defer();
-            Buildfire.geo.getCurrentPosition(
-                null,
-                function (err,position) {
-                  if (err)
-                    deferred.reject(err);
-                  else
-                    deferred.resolve(position);
-                }
-            );
-            return deferred.promise;
-          }
+    .factory("Location", ['Buildfire', '$q', function (Buildfire, $q) {
+      return {
+        getCurrentLocation: function () {
+          var deferred = $q.defer();
+          Buildfire.geo.getCurrentPosition(
+            null,
+            function (err, position) {
+              if (err)
+                deferred.reject(err);
+              else
+                deferred.resolve(position);
+            }
+          );
+          return deferred.promise;
         }
+      }
 
+    }])
+    .factory('WeatherUndergroundApi', ['WEATHER_UNDERGROUND', '$q', '$http', 'STATUS_CODE', 'STATUS_MESSAGES',
+      function (WEATHER_UNDERGROUND, $q, $http, STATUS_CODE, STATUS_MESSAGES) {
+        var getWeatherData = function (location) {
+          var deferred = $q.defer();
+          if (!location) {
+            deferred.reject(new Error({
+              code: STATUS_CODE.UNDEFINED_DATA,
+              message: STATUS_MESSAGES.UNDEFINED_DATA
+            }));
+          } else {
+            var req = {
+              method: 'GET',
+              url: "http://api.wunderground.com/api/" + WEATHER_UNDERGROUND.API_KEY + "/conditions/q/CA/San_Francisco.json"
+            };
+            $http(req).then(function (response) {
+              // this callback will be called asynchronously
+              // when the response is available
+              deferred.resolve(response);
+            }, function (error) {
+              // called asynchronously if an error occurs
+              // or server returns response with an error status.
+              deferred.reject(error);
+            });
+          }
+          return deferred.promise;
+        };
+        return {
+          getWeatherData: getWeatherData
+        };
       }])
 })(window.angular, window.buildfire);
