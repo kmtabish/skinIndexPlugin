@@ -49,10 +49,12 @@
         var clearOnUpdateListener = Buildfire.datastore.onUpdate(function (event) {
 
           if(event.tag==TAG_NAMES.UVO_INFO){
+            if(event.data.design && event.data.design.secListBGImage){
+                WidgetHome.bgImage = event.data.design.secListBGImage;
+                $rootScope.itemDetailsBackgroundImage =  WidgetHome.bgImage;
+                if (!$scope.$$phase)$scope.$digest();
+            }
 
-            WidgetHome.bgImage = event.data.design.secListBGImage;
-            $rootScope.itemDetailsBackgroundImage =  WidgetHome.bgImage;
-            if (!$scope.$$phase)$scope.$digest();
           }
         });
 
