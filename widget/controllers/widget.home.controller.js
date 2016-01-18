@@ -44,7 +44,7 @@
         init();
 
         WidgetHome.goToLocation = function () {
-          if (WidgetHome.data.settings && WidgetHome.data.settings.apikey) {
+          if (WidgetHome.data.settings && WidgetHome.data.settings.apiKey) {
             ViewStack.push({
               template: 'Location'
             });
