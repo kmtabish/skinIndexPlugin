@@ -9,12 +9,12 @@
             };
             return Buildfire;
         }])
-        .factory("DB", ['Buildfire', '$q', 'MESSAGES', 'CODES', function (Buildfire, $q, MESSAGES, CODES) {
-            function DB(tagName) {
+        .factory("DataStore", ['Buildfire', '$q', 'MESSAGES', 'CODES', function (Buildfire, $q, MESSAGES, CODES) {
+            function DataStore(tagName) {
                 this._tagName = tagName;
             }
 
-            DB.prototype.get = function () {
+            DataStore.prototype.get = function () {
                 var that = this;
                 var deferred = $q.defer();
                 Buildfire.datastore.get(that._tagName, function (err, result) {
@@ -30,7 +30,7 @@
                 });
                 return deferred.promise;
             };
-            DB.prototype.update = function (id, item) {
+            DataStore.prototype.update = function (id, item) {
                 var that = this;
                 var deferred = $q.defer();
                 if (typeof id == 'undefined') {
@@ -51,7 +51,7 @@
                 });
                 return deferred.promise;
             };
-            DB.prototype.save = function (item) {
+            DataStore.prototype.save = function (item) {
                 var that = this;
                 var deferred = $q.defer();
                 if (typeof item == 'undefined') {
@@ -69,6 +69,6 @@
                 });
                 return deferred.promise;
             };
-            return DB;
+            return DataStore;
         }]);
 })(window.angular, window.buildfire);

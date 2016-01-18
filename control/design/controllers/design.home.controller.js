@@ -3,7 +3,7 @@
 (function (angular,window) {
     angular
         .module('skinIndexPluginDesign')
-        .controller('DesignHomeCtrl', ['TAG_NAMES','DB','$scope', '$timeout', 'Buildfire','uvoInfo', function (TAG_NAMES,DB,$scope, $timeout, Buildfire,uvoInfo) {
+        .controller('DesignHomeCtrl', ['TAG_NAMES','DataStore','$scope', '$timeout', 'Buildfire','uvoInfo', function (TAG_NAMES,DataStore,$scope, $timeout, Buildfire,uvoInfo) {
             var DesignHome = this,
                 _data = {
 
@@ -14,7 +14,7 @@
                 };
             var background = new Buildfire.components.images.thumbnail("#background");
 
-            if (uvoInfo) {
+            if (uvoInfo.data.design) {
                 DesignHome.uvoInfo = uvoInfo;
                 DesignHome._lastSaved = angular.copy(DesignHome.uvoInfo);
             }
@@ -28,7 +28,7 @@
             }
 
             var tmrDelay=null;
-            DesignHome._uvoInfo = new DB(TAG_NAMES.UVO_INFO);
+            DesignHome._uvoInfo = new DataStore(TAG_NAMES.UVO_INFO);
 
             background.onChange = function (url) {
 
