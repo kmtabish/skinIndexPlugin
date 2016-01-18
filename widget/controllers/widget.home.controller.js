@@ -3,9 +3,10 @@
 (function (angular) {
   angular
     .module('skinIndexPluginWidget')
-    .controller('WidgetHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'ViewStack',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack) {
+    .controller('WidgetHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'ViewStack','$rootScope',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack , $rootScope) {
         var WidgetHome = this;
+        $rootScope.itemDetailsBackgroundImage = "";
         WidgetHome.bgImage="";
         WidgetHome.deviceHeight = window.innerHeight;
         WidgetHome.deviceWidth = window.innerWidth;
@@ -20,14 +21,11 @@
 
           if(event.tag==TAG_NAMES.UVO_INFO){
 
-            WidgetHome.bgImage = {background: "url("+event.data.design.secListBGImage+") background-size:cover"};
+            WidgetHome.bgImage = event.data.design.secListBGImage;
+            $rootScope.itemDetailsBackgroundImage =  WidgetHome.bgImage;
             if (!$scope.$$phase)$scope.$digest();
           }
         });
-
-
-
-
 
       }]);
 })(window.angular);
