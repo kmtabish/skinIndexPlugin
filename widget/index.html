@@ -25,10 +25,9 @@
   <script
       src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 </head>
-<body
-    style="background:url(http://microstockinsider.com/files/freeimages/sunset_sky_DSC0244.preview.jpg); background-size:cover;">
-<div ng-controller="WidgetHomeCtrl as WidgetHome" class="slide content">
-  <div ng-include="'templates/Home.html'">
+<body class="body-scroll slide ">
+<div ng-controller="WidgetHomeCtrl as WidgetHome" class="slide content" data-back-img="{{itemDetailsBackgroundImage}}">
+  <div   ng-include="'templates/Home.html'">
   </div>
 </div>
 <div view-switcher=""></div>

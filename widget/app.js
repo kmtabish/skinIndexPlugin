@@ -36,7 +36,7 @@
                 _el.focus();
 
                 var newScope = $rootScope.$new();
-                var _newView = '<div  id="' + view.template + '" ><div class="slide content" ng-include="\'templates/' + view.template + '.html\'"></div></div>';
+                var _newView = '<div  id="' + view.template + '" ><div class="slide content" data-back-img="{{itemDetailsBackgroundImage}}" ng-include="\'templates/' + view.template + '.html\'"></div></div>';
                 var parTpl = $compile(_newView)(newScope);
 
                 $(elem).append(parTpl);
@@ -87,6 +87,40 @@
             }
 
           }
+        };
+      }])
+      .filter('cropImage', [function () {
+        return function (url, width, height, noDefault) {
+          if (noDefault) {
+            if (!url)
+              return '';
+          }
+          return buildfire.imageLib.cropImage(url, {
+            width: width,
+            height: height
+          });
+        };
+      }])
+      .directive('backImg', ["$filter", "$rootScope", function ($filter, $rootScope) {
+        return function (scope, element, attrs) {
+          attrs.$observe('backImg', function (value) {
+            var img = '';
+            if (value) {
+              img = $filter("cropImage")(value, $rootScope.deviceWidth, $rootScope.deviceHeight, true);
+              element.attr("style", 'background:url(' + img + ') !important');
+              element.css({
+                'background-size': 'cover',
+                'height':'100%'
+              });
+            }
+            else {
+              img = "";
+              element.attr("style", 'background-color:white');
+              element.css({
+                'background-size': 'cover'
+              });
+            }
+          });
         };
       }])
     .directive('googleLocationSearch', function () {

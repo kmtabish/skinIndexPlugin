@@ -4,6 +4,7 @@
     angular
         .module('skinIndexPluginDesign')
         .controller('DesignHomeCtrl', ['TAG_NAMES','DataStore','$scope', '$timeout', 'Buildfire','uvoInfo', function (TAG_NAMES,DataStore,$scope, $timeout, Buildfire,uvoInfo) {
+
             var DesignHome = this,
                 _data = {
 
@@ -32,7 +33,6 @@
 
             background.onChange = function (url) {
 
-
                 DesignHome.uvoInfo.data.design.secListBGImage = url;
                 console.log('DesignHomeCtrl bfURL saved :');
                 if (!$scope.$$phase && !$scope.$root.$$phase) {
@@ -44,12 +44,12 @@
 
 
 
-            background.onDelete = function (url) {
-                DesignHome.uvoInfo.data.design.secListBGImage = url;
+            background.onDelete = function () {
+                DesignHome.uvoInfo.data.design.secListBGImage = "";
                 if (!$scope.$$phase && !$scope.$root.$$phase) {
                     $scope.$apply();
                 }
-                console.log('bg deleted :',url);
+               // console.log('bg deleted :',url);
             };
 
             function isUnchanged(data) {
