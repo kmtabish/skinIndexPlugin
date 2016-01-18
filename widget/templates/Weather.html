@@ -13,24 +13,14 @@
             <h1 class="margin-zero">{{WidgetWeather.info.UV}}</h1>
         </div>
         <h4 class="margin-top-twenty margin-bottom-five">UV Index:
-          {{WidgetWeather.info.UV}} - High</h4>
-        <h5 class="margin-top-five margin-bottom-five">Protection Needed</h5>
+          {{WidgetWeather.info.UV}} - {{WidgetWeather.info.condition}}</h4>
+        <h5 class="margin-top-five margin-bottom-five">{{WidgetWeather.info.title}}</h5>
 
         <div class="steps">
-            <div class="step clearfix">
-                <span class="num dot pull-left">1</span>
+            <div class="step clearfix" ng-repeat="step in WidgetWeather.info.steps">
+                <span class="num dot pull-left">{{$index + 1}}</span>
 
-                <p>UVO</p>
-            </div>
-            <div class="step clearfix">
-                <span class="num dot pull-left">2</span>
-
-                <p>Sunscreen 30+</p>
-            </div>
-            <div class="step clearfix">
-                <span class="num dot pull-left">3</span>
-
-                <p>Hat and sunglasses</p>
+                <p>{{step}}</p>
             </div>
         </div>
     </div>
