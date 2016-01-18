@@ -6,9 +6,7 @@
     .controller('DesignHomeCtrl', ['TAG_NAMES', 'DB', '$scope', '$timeout', 'Buildfire', 'uvoInfo', function (TAG_NAMES, DB, $scope, $timeout, Buildfire, uvoInfo) {
       var DesignHome = this,
         _data = {
-
           design: {
-
             secListBGImage: ""
           }
         };

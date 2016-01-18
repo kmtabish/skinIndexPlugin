@@ -38,7 +38,6 @@
 
         WidgetLocation.setLocation = function (data) {
           WidgetLocation.success = function (result) {
-            console.log(">>>>>>>>>>>>>>>", result);
             if (result) {
               WidgetLocation.data = result.data;
               if (!WidgetLocation.data.widget)
@@ -52,9 +51,9 @@
             location: data.location,
             location_coordinates: data.coordinates
           };
-          WidgetLocation.currentLocation = WidgetLocation.data.widget.address.location;
-          WidgetLocation.currentCoordinates = WidgetLocation.data.widget.address.location_coordinates;
-          DataStore.save(WidgetLocation.data, TAG_NAMES.UVO_INFO).then(SettingsHome.success, SettingsHome.error);
+          WidgetLocation.currentLocation = WidgetLocation.data.widget.location;
+          WidgetLocation.currentCoordinates = WidgetLocation.data.widget.location_coordinates;
+          DataStore.save(WidgetLocation.data, TAG_NAMES.UVO_INFO).then(WidgetLocation.success, WidgetLocation.error);
           $scope.$digest();
         };
 
