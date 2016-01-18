@@ -5,6 +5,7 @@
   <link href="css/style.css" rel="stylesheet">
   <link href="../../../styles/helper.css" rel="stylesheet">
   <link href="../../../styles/siteIcons.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../styles/appStyle.css">
 
   <!-- JS -->
   <script src="../../../scripts/buildfire.js"></script>
@@ -22,12 +23,15 @@
   <script src="controllers/widget.home.controller.js"></script>
   <script src="controllers/widget.weather.controller.js"></script>
   <script src="controllers/widget.location.controller.js"></script>
+  <script src="../../../scripts/angular/angular-animate.min.js"></script>
+  <link rel="stylesheet" href="../../../styles/transitionAnimation.css">
+
   <script
       src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 </head>
 <body class="body-scroll slide ">
-<div ng-controller="WidgetHomeCtrl as WidgetHome" class="slide content" data-back-img="{{itemDetailsBackgroundImage}}">
-  <div   ng-include="'templates/Home.html'">
+<div ng-controller="WidgetHomeCtrl as WidgetHome" class="slide content relative" data-back-img="{{itemDetailsBackgroundImage}}">
+  <div  ng-include="'templates/Home.html'">
   </div>
 </div>
 <div view-switcher=""></div>

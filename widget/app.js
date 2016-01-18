@@ -36,7 +36,7 @@
                 _el.focus();
 
                 var newScope = $rootScope.$new();
-                var _newView = '<div  id="' + view.template + '" ><div class="slide content" data-back-img="{{itemDetailsBackgroundImage}}" ng-include="\'templates/' + view.template + '.html\'"></div></div>';
+                var _newView = '<div class="slide content" data-back-img="{{itemDetailsBackgroundImage}}"  id="' + view.template + '" ><div ng-include="\'templates/' + view.template + '.html\'"></div></div>';
                 var parTpl = $compile(_newView)(newScope);
 
                 $(elem).append(parTpl);
