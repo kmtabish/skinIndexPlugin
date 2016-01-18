@@ -65,15 +65,22 @@
               var locationPromise = Location.getCurrentLocation();
               locationPromise.then(function (response) {
                 var geocoder = new google.maps.Geocoder;
+                var latitude=parseFloat(response.coords.latitude);
+                    var longitude=parseFloat(response.coords.longitude);
                 var latlng = {
-                  lat: parseFloat(response.coords.latitude),
-                  lng: parseFloat(response.coords.longitude)
+                  lat: latitude,
+                  lng: longitude
                 };
+                var latLngArray=[latitude,longitude]
                 geocoder.geocode({'location': latlng}, function (results, status) {
                   if (status === google.maps.GeocoderStatus.OK) {
                     if (results[1]) {
                       console.log(results[1].formatted_address);
                       WidgetLocation.currentLocation = results[1].formatted_address;
+                      WidgetLocation.setLocation({
+                        location:  WidgetLocation.currentLocation,
+                        location_coordinates : latLngArray
+                      });
                       $scope.$digest();
                     } else {
                       console.log('No results found');
