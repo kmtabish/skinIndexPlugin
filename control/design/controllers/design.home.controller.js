@@ -34,10 +34,10 @@
 
 
                 DesignHome.uvoInfo.data.design.secListBGImage = url;
-                    console.log('DesignHomeCtrl bfURL saved :');
-                    if (!$scope.$$phase && !$scope.$root.$$phase) {
-                        $scope.$apply();
-                    }
+                console.log('DesignHomeCtrl bfURL saved :');
+                if (!$scope.$$phase && !$scope.$root.$$phase) {
+                    $scope.$apply();
+                }
 
                 console.log('bg change :',url);
             };
