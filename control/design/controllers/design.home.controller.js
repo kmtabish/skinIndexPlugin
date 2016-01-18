@@ -14,7 +14,7 @@
                 };
             var background = new Buildfire.components.images.thumbnail("#background");
 
-            if (uvoInfo.data.design) {
+            if (uvoInfo && uvoInfo.data && uvoInfo.data.design) {
                 DesignHome.uvoInfo = uvoInfo;
                 DesignHome._lastSaved = angular.copy(DesignHome.uvoInfo);
             }
