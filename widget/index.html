@@ -1,24 +1,39 @@
 <!DOCTYPE html>
-<html>
-<head>    
-	<!-- CSS -->
-	<link href="css/style.css" rel="stylesheet">
-	<link href="../../../../styles/helper.css" rel="stylesheet">
-	<link href="../../../../styles/siteIcons.css" rel="stylesheet">
-	
-	<!-- JS -->
-	<script src="../../../../scripts/buildfire.js"></script>
+<html ng-app="skinIndexPluginWidget">
+<head>
+  <!-- CSS -->
+  <link href="css/style.css" rel="stylesheet">
+  <link href="../../../styles/helper.css" rel="stylesheet">
+  <link href="../../../styles/siteIcons.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../../styles/appStyle.css">
 
-	<!-- Meta -->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- JS -->
+  <script src="../../../scripts/buildfire.js"></script>
+  <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+  <script src="../../../scripts/angular/angular.min.js"></script>
+  <script src="../../../scripts/angular/angular-route.min.js"></script>
+  <script src="../../../scripts/angular/ui-bootstrap.min.js"></script>
+
+  <!-- Meta -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="modals.js"></script>
+  <script src="app.js"></script>
+  <script src="enums.js"></script>
+  <script src="app.services.js"></script>
+  <script src="controllers/widget.home.controller.js"></script>
+  <script src="controllers/widget.weather.controller.js"></script>
+  <script src="controllers/widget.location.controller.js"></script>
+  <script src="../../../scripts/angular/angular-animate.min.js"></script>
+  <link rel="stylesheet" href="../../../styles/transitionAnimation.css">
+
+  <script
+      src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 </head>
-<body style="background:url(http://microstockinsider.com/files/freeimages/sunset_sky_DSC0244.preview.jpg); background-size:cover;">
-	<div class="holder padding-zero">
-		<div class="skin-index text-center step1">
-			<div class="dot primaryBackgroundTheme">
-				<h3>Find<br>UV Index</h3>
-			</div>
-		</div>
-	</div>
+<body class="body-scroll slide ">
+<div ng-controller="WidgetHomeCtrl as WidgetHome" class="slide content relative" data-back-img="{{itemDetailsBackgroundImage}}">
+  <div  ng-include="'templates/Home.html'">
+  </div>
+</div>
+<div view-switcher=""></div>
 </body>
 </html>

@@ -1,0 +1,27 @@
+<div class="item clearfix row" ng-if="SettingsHome.data">
+  <div class="main pull-right col-md-9">
+    <div class="alert alert-danger alert-sm text-center"
+         ng-if="!SettingsHome.data.settings.apiKey">Please enter API Key to
+      find UV index
+    </div>
+  </div>
+</div>
+<br>
+<div class="item row clearfix">
+  <div class="labels col-md-3 padding-right-zero pull-left">
+    <span>API key</span>
+  </div>
+  <div class="main col-md-9 pull-right">
+    <input id="url" name="url" type="text" class="form-control"
+           ng-model="SettingsHome.data.settings.apiKey">
+  </div>
+  <hr class="none">
+  <br>
+
+  <div class="item clearfix row">
+    <div class="col-md-9 pull-right">
+      <p>Dont have a Weather Underground account click <a
+          ng-click="SettingsHome.gotToPage()">here</a> to register</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="holder padding-zero" ng-controller="WidgetWeatherCtrl as
+     WidgetWeather">
+    <div class="skin-index text-center step3" ng-if="WidgetWeather.info">
+        <h1 class="margin-bottom-five">{{WidgetWeather.info
+          .temp_f}}<span>&deg;</span></h1>
+        <h4 class="margin-top-five margin-bottom-five">{{WidgetWeather
+          .info.display_location.city}}</h4>
+        <h5 class="margin-top-five margin-bottom-five">{{WidgetWeather
+          .info.weather}}</h5>
+        <h5 class="margin-top-five margin-bottom-five"><a>Reset Location</a></h5>
+
+        <div class="dot primaryBackgroundTheme margin-top-twenty">
+            <h1 class="margin-zero">{{WidgetWeather.info.UV}}</h1>
+        </div>
+        <h4 class="margin-top-twenty margin-bottom-five">UV Index:
+          {{WidgetWeather.info.UV}} - {{WidgetWeather.info.condition}}</h4>
+        <h5 class="margin-top-five margin-bottom-five">{{WidgetWeather.info.title}}</h5>
+
+        <div class="steps">
+            <div class="step clearfix" ng-repeat="step in WidgetWeather.info.steps">
+                <span class="num dot pull-left">{{$index + 1}}</span>
+
+                <p>{{step}}</p>
+            </div>
+        </div>
+    </div>
+</div>

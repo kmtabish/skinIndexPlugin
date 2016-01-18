@@ -1,0 +1,18 @@
+<a>
+  <div class="holder padding-zero">
+    <div class="skin-index text-center step1">
+      <div class="dot primaryBackgroundTheme"
+           ng-click="WidgetHome.goToLocation()">
+        <h3>Find<br>UV Index</h3>
+      </div>
+      <div class="item clearfix row" ng-if="WidgetHome.data">
+        <div class="main pull-right col-md-9">
+          <div class="alert alert-danger alert-sm text-center"
+               ng-if="WidgetHome.addApiKey">Please enter API Key to
+            find UV index in settings section
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</a>
