@@ -61,7 +61,7 @@
         var clearOnUpdateListener = Buildfire.datastore.onUpdate(function (event) {
           if (event.tag == TAG_NAMES.UVO_INFO) {
             console.log(">>>>>>>>>>>>>>>", event.data);
-              if(event.data && event.data.design && event.data.design.secListBGImage){
+              if(event.data && event.data.design){
                   WidgetHome.data = event.data;
                   WidgetHome.bgImage = event.data.design.secListBGImage;
                   $rootScope.itemDetailsBackgroundImage = WidgetHome.bgImage;
