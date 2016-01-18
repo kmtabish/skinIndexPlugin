@@ -9,8 +9,8 @@
                     controllerAs: 'DesignHome',
                     controller: 'DesignHomeCtrl',
                     resolve: {
-                        uvoInfo: ['DB', 'COLLECTIONS', '$q', function (DB, COLLECTIONS, $q) {
-                            var skinIndexInfo = new DB(COLLECTIONS.skinIndexInfo)
+                        uvoInfo: ['DataStore', 'TAG_NAMES', '$q', function (DataStore, TAG_NAMES, $q) {
+                            var uvInfoInfo = new DataStore(TAG_NAMES.UVO_INFO)
                                 , deferred = $q.defer()
                                 , success = function (result) {
                                     if (Object.keys(result.data).length > 0) {
@@ -23,7 +23,7 @@
                                 , error = function (err) {
                                     deferred.resolve(null);
                                 };
-                            skinIndexInfo.get().then(success, error);
+                            uvInfoInfo.get().then(success, error);
                             return deferred.promise;
                         }]
                     }
