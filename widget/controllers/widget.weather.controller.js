@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('skinIndexPluginWidget')
-    .controller('WidgetWeatherCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'WeatherUndergroundApi',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, WeatherUndergroundApi) {
+    .controller('WidgetWeatherCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'WeatherUndergroundApi', 'RECOMMENDATIONS',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, WeatherUndergroundApi, RECOMMENDATIONS) {
         var WidgetWeather = this;
 
         /*Init method call, it will bring all the pre saved data*/
@@ -33,8 +33,12 @@
         WidgetWeather.getWeatherData = function () {
           WidgetWeather.successWeather = function (result) {
             console.log("Weather data ::::::::::::::::", result.data.current_observation);
-            if (result.data && result.data.current_observation)
+            if (result.data && result.data.current_observation) {
               WidgetWeather.info = result.data.current_observation;
+              WidgetWeather.info.condition = RECOMMENDATIONS[WidgetWeather.info.UV].condition;
+              WidgetWeather.info.title = RECOMMENDATIONS[WidgetWeather.info.UV].title;
+              WidgetWeather.info.steps = RECOMMENDATIONS[WidgetWeather.info.UV].steps;
+            }
           };
 
           WidgetWeather.errorWeather = function (error) {
