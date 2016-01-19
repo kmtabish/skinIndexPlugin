@@ -128,13 +128,13 @@
         scope: {setLocationInController: '&callbackFn'},
         link: function (scope, element, attributes) {
           var options = {
-            types: ['geocode']
+            types: ['(cities)']
           };
           var autocomplete = new google.maps.places.Autocomplete(element[0], options);
           google.maps.event.addListener(autocomplete, 'place_changed', function () {
             var location = autocomplete.getPlace().formatted_address;
             if (autocomplete.getPlace().geometry) {
-              var coordinates = [autocomplete.getPlace().geometry.location.lng(), autocomplete.getPlace().geometry.location.lat()];
+              var coordinates = [autocomplete.getPlace().geometry.location.lat(),autocomplete.getPlace().geometry.location.lng()];
               scope.setLocationInController({
                 data: {
                   location: location,
@@ -146,8 +146,8 @@
         }
       };
     })
-    .run(['Location', '$location', '$rootScope','ViewStack',
-      function (Location, $location, $rootScope,ViewStack) {
+    .run(['Location', '$location', '$rootScope', 'ViewStack',
+      function (Location, $location, $rootScope, ViewStack) {
         buildfire.navigation.onBackButtonClick = function () {
           if (ViewStack.hasViews()) {
             ViewStack.pop();
