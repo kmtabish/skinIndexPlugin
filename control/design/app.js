@@ -7,8 +7,8 @@
                 .when('/', {
                     templateUrl: 'templates/home.html',
                     controllerAs: 'DesignHome',
-                    controller: 'DesignHomeCtrl',
-                    resolve: {
+                    controller: 'DesignHomeCtrl'
+                  /*  resolve: {
                         uvoInfo: ['DataStore', 'TAG_NAMES', '$q', function (DataStore, TAG_NAMES, $q) {
                             var uvInfoInfo = new DataStore(TAG_NAMES.UVO_INFO)
                                 , deferred = $q.defer()
@@ -26,7 +26,7 @@
                             uvInfoInfo.get().then(success, error);
                             return deferred.promise;
                         }]
-                    }
+                    }*/
                 })
                 .otherwise('/');
         }])

@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('skinIndexPluginWidget')
-    .controller('WidgetLocationCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'ViewStack', 'Location', 'Modals',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack, Location, Modals) {
+    .controller('WidgetLocationCtrl', ['$rootScope','$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'ViewStack', 'Location', 'Modals',
+      function ($rootScope,$scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack, Location, Modals) {
         var WidgetLocation = this;
 
 
@@ -36,12 +36,17 @@
           });
         };
 
-        WidgetLocation.setLocation = function (data) {
+        WidgetLocation.setLocation = function (data, redirectToNext) {
           WidgetLocation.success = function (result) {
             if (result) {
               WidgetLocation.data = result.data;
               if (!WidgetLocation.data.widget)
                 WidgetLocation.data.widget = {};
+              if (redirectToNext) {
+                ViewStack.push({
+                  template: 'Weather'
+                });
+              }
             }
           };
           WidgetLocation.error = function (err) {
@@ -65,22 +70,22 @@
               var locationPromise = Location.getCurrentLocation();
               locationPromise.then(function (response) {
                 var geocoder = new google.maps.Geocoder;
-                var latitude=parseFloat(response.coords.latitude);
-                    var longitude=parseFloat(response.coords.longitude);
+                var latitude = parseFloat(response.coords.latitude);
+                var longitude = parseFloat(response.coords.longitude);
                 var latlng = {
                   lat: latitude,
                   lng: longitude
                 };
-                var latLngArray=[latitude,longitude]
+                var latLngArray = [latitude, longitude];
                 geocoder.geocode({'location': latlng}, function (results, status) {
                   if (status === google.maps.GeocoderStatus.OK) {
                     if (results[1]) {
-                      console.log(results[1].formatted_address);
+                      console.log(results[1]);
                       WidgetLocation.currentLocation = results[1].formatted_address;
                       WidgetLocation.setLocation({
-                        location:  WidgetLocation.currentLocation,
-                        location_coordinates : latLngArray
-                      });
+                        location: WidgetLocation.currentLocation,
+                        coordinates: latLngArray
+                      }, true);
                       $scope.$digest();
                     } else {
                       console.log('No results found');
@@ -96,9 +101,17 @@
             }, function (err) {
               console.log(err);
             });
+        };
 
-
-        }
+       Buildfire.datastore.onUpdate(function (event) {
+          if (event.tag == TAG_NAMES.UVO_INFO) {
+            console.log(">>>>>>>>>>>>>>>", event.data);
+            if(event.data &&  event.data.design){
+              $rootScope.itemDetailsBackgroundImage =  event.data.design.secListBGImage;
+              if (!$rootScope.$$phase)$rootScope.$digest();
+            }
+          }
+        });
 
       }]);
 })(window.angular);

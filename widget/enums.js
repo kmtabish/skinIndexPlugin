@@ -23,8 +23,8 @@
       NOT_ITEM_ARRAY: 'Array of Items not provided',
       ITEM_ARRAY_FOUND: 'Array of Items provided'
     })
-    .constant('WEATHER_UNDERGROUND', {
-      API_KEY: '9a2afe49784d882f'
+    .constant('WORLD_WEATHER', {
+      API_KEY: 'c0fbf1422cd81e949fc330b0da807'
     })
     .constant('RECOMMENDATIONS', {
       0: {

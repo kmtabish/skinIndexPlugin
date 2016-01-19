@@ -1,7 +1,7 @@
 'use strict';
-(function (angular) {
+(function (angular, buildfire) {
   angular
-    .module('skinIndexPluginWidget', ['ngRoute','skinIndexModals'])
+    .module('skinIndexPluginWidget', ['ngRoute', 'skinIndexModals'])
     .config(['$routeProvider', '$compileProvider', function ($routeProvider, $compileProvider) {
 
       /**
@@ -36,14 +36,13 @@
                 _el.focus();
 
                 var newScope = $rootScope.$new();
-                var _newView = '<div class="slide content" data-back-img="{{itemDetailsBackgroundImage}}"  id="' + view.template + '" ><div ng-include="\'templates/' + view.template + '.html\'"></div></div>';
+                var _newView = '<div  id="' + view.template + '" ><div class="slide content" data-back-img="{{itemDetailsBackgroundImage}}" ng-include="\'templates/' + view.template + '.html\'"></div></div>';
                 var parTpl = $compile(_newView)(newScope);
 
                 $(elem).append(parTpl);
                 views++;
 
               } else if (type === 'POP') {
-
                 var _elToRemove = $(elem).find('#' + view.template),
                   _child = _elToRemove.children("div").eq(0);
 
@@ -89,53 +88,53 @@
           }
         };
       }])
-      .filter('cropImage', [function () {
-        return function (url, width, height, noDefault) {
-          if (noDefault) {
-            if (!url)
-              return '';
+    .filter('cropImage', [function () {
+      return function (url, width, height, noDefault) {
+        if (noDefault) {
+          if (!url)
+            return '';
+        }
+        return buildfire.imageLib.cropImage(url, {
+          width: width,
+          height: height
+        });
+      };
+    }])
+    .directive('backImg', ["$filter", "$rootScope", function ($filter, $rootScope) {
+      return function (scope, element, attrs) {
+        attrs.$observe('backImg', function (value) {
+          var img = '';
+          if (value) {
+            img = $filter("cropImage")(value, $rootScope.deviceWidth, $rootScope.deviceHeight, true);
+            element.attr("style", 'background:url(' + img + ') !important');
+            element.css({
+              'background-size': 'cover',
+              'height': '100%'
+            });
           }
-          return buildfire.imageLib.cropImage(url, {
-            width: width,
-            height: height
-          });
-        };
-      }])
-      .directive('backImg', ["$filter", "$rootScope", function ($filter, $rootScope) {
-        return function (scope, element, attrs) {
-          attrs.$observe('backImg', function (value) {
-            var img = '';
-            if (value) {
-              img = $filter("cropImage")(value, $rootScope.deviceWidth, $rootScope.deviceHeight, true);
-              element.attr("style", 'background:url(' + img + ') !important');
-              element.css({
-                'background-size': 'cover',
-                'height':'100%'
-              });
-            }
-            else {
-              img = "";
-              element.attr("style", 'background-color:white');
-              element.css({
-                'background-size': 'cover'
-              });
-            }
-          });
-        };
-      }])
+          else {
+            img = "";
+            element.attr("style", 'background-color:white');
+            element.css({
+              'background-size': 'cover'
+            });
+          }
+        });
+      };
+    }])
     .directive('googleLocationSearch', function () {
       return {
         restrict: 'A',
         scope: {setLocationInController: '&callbackFn'},
         link: function (scope, element, attributes) {
           var options = {
-            types: ['geocode']
+            types: ['(cities)']
           };
           var autocomplete = new google.maps.places.Autocomplete(element[0], options);
           google.maps.event.addListener(autocomplete, 'place_changed', function () {
             var location = autocomplete.getPlace().formatted_address;
             if (autocomplete.getPlace().geometry) {
-              var coordinates = [autocomplete.getPlace().geometry.location.lng(), autocomplete.getPlace().geometry.location.lat()];
+              var coordinates = [autocomplete.getPlace().geometry.location.lat(),autocomplete.getPlace().geometry.location.lng()];
               scope.setLocationInController({
                 data: {
                   location: location,
@@ -147,5 +146,15 @@
         }
       };
     })
-})(window.angular);
+    .run(['Location', '$location', '$rootScope', 'ViewStack',
+      function (Location, $location, $rootScope, ViewStack) {
+        buildfire.navigation.onBackButtonClick = function () {
+          if (ViewStack.hasViews()) {
+            ViewStack.pop();
+          } else {
+            buildfire.navigation.navigateHome();
+          }
+        };
+      }])
+})(window.angular, window.buildfire);
 

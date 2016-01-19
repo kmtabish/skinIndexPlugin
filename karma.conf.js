@@ -23,9 +23,14 @@ module.exports = function(config) {
             'test/assets/bower_components/owlcarousel/owl-carousel/owl.carousel.min.js',
             'test/assets/bower_components/tinymce/tinymce.min.js',
             'test/assets/bower_components/angular-mocks/angular-mocks.js',
+            './test/assets/buildfire.js',
             'test/control/**/*.js',
+            'test/widget/**/*.js',
+            'test/settings/**/*.js',
             'control/design/*.js',
             'control/design/**/*.js',
+            'control/settings/*.js',
+            'control/settings/**/*.js',
             'widget/**/*.js'
 
         ],
