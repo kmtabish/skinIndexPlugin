@@ -17,7 +17,7 @@
         }
 
         SettingsHome.gotToPage = function () {
-          window.open('http://m.wund.com/weather/api/', '_blank');
+          window.open('http://www.worldweatheronline.com/api/', '_blank');
         };
 
         SettingsHome.saveData = function (newObj, tag) {

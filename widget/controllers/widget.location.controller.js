@@ -80,11 +80,11 @@
                 geocoder.geocode({'location': latlng}, function (results, status) {
                   if (status === google.maps.GeocoderStatus.OK) {
                     if (results[1]) {
-                      console.log(results[1].formatted_address);
+                      console.log(results[1]);
                       WidgetLocation.currentLocation = results[1].formatted_address;
                       WidgetLocation.setLocation({
                         location: WidgetLocation.currentLocation,
-                        location_coordinates: latLngArray
+                        coordinates: latLngArray
                       }, true);
                       $scope.$digest();
                     } else {
@@ -101,9 +101,7 @@
             }, function (err) {
               console.log(err);
             });
-
-
-        }
+        };
 
        Buildfire.datastore.onUpdate(function (event) {
           if (event.tag == TAG_NAMES.UVO_INFO) {
