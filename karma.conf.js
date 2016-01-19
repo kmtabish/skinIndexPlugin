@@ -26,8 +26,11 @@ module.exports = function(config) {
             './test/assets/buildfire.js',
             'test/control/**/*.js',
             'test/widget/**/*.js',
+            'test/settings/**/*.js',
             'control/design/*.js',
             'control/design/**/*.js',
+            'control/settings/*.js',
+            'control/settings/**/*.js',
             'widget/**/*.js'
 
         ],
