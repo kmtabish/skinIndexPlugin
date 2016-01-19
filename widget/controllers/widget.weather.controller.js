@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('skinIndexPluginWidget')
-    .controller('WidgetWeatherCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'WeatherUndergroundApi', 'RECOMMENDATIONS',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, WeatherUndergroundApi, RECOMMENDATIONS) {
+    .controller('WidgetWeatherCtrl', ['$rootScope','$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'WeatherUndergroundApi', 'RECOMMENDATIONS',
+      function ($rootScope,$scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, WeatherUndergroundApi, RECOMMENDATIONS) {
         var WidgetWeather = this;
 
         /*Init method call, it will bring all the pre saved data*/
@@ -49,5 +49,15 @@
         };
 
         WidgetWeather.init();
+
+        Buildfire.datastore.onUpdate(function (event) {
+          if (event.tag == TAG_NAMES.UVO_INFO) {
+            console.log(">>>>>>>>>>>>>>>", event.data);
+            if(event.data && event.data && event.data.design){
+              $rootScope.itemDetailsBackgroundImage =  event.data.design.secListBGImage;
+              if (!$rootScope.$$phase)$rootScope.$digest();
+            }
+          }
+        });
       }]);
 })(window.angular);
