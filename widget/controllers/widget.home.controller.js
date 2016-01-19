@@ -58,7 +58,7 @@
           }
         };
 
-        var clearOnUpdateListener = Buildfire.datastore.onUpdate(function (event) {
+          Buildfire.datastore.onUpdate(function (event) {
           if (event.tag == TAG_NAMES.UVO_INFO) {
             console.log(">>>>>>>>>>>>>>>", event.data);
               if(event.data && event.data.design){

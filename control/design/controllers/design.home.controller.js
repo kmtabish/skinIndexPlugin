@@ -7,6 +7,13 @@
 
             var DesignHome = this;
             DesignHome.masterData = null;
+            DesignHome={
+                data :{
+                    design :{
+
+                    }
+                }
+            }
 
             var background = new Buildfire.components.images.thumbnail("#background");
 
@@ -30,15 +37,6 @@
                 if (!$scope.$$phase && !$scope.$root.$$phase) {
                     $scope.$apply();
                 }
-
-                DesignHome.success=function(response){
-                    console.log(response)
-                }
-                DesignHome.error=function(error){
-                    console.log(error)
-                }
-                DataStore.save(DesignHome, TAG_NAMES.UVO_INFO).then(DesignHome.success, DesignHome.error);
-                // console.log('bg deleted :',url);
             };
 
             function updateMasterItem(data) {
@@ -50,7 +48,7 @@
             DesignHome.init = function () {
                 DesignHome.success = function (result) {
                     console.info('init success result:', result);
-                    if (result) {
+                    if (result && result.data && result.data.design && result.data.design.secListBGImage) {
                         DesignHome.data = result.data;
                         background.loadbackground(DesignHome.data.design.secListBGImage);
                         if (!DesignHome.data.design)

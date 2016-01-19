@@ -3,8 +3,8 @@
 (function (angular) {
   angular
     .module('skinIndexPluginWidget')
-    .controller('WidgetLocationCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'ViewStack', 'Location', 'Modals',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack, Location, Modals) {
+    .controller('WidgetLocationCtrl', ['$rootScope','$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'ViewStack', 'Location', 'Modals',
+      function ($rootScope,$scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack, Location, Modals) {
         var WidgetLocation = this;
 
 
@@ -104,6 +104,16 @@
 
 
         }
+
+       Buildfire.datastore.onUpdate(function (event) {
+          if (event.tag == TAG_NAMES.UVO_INFO) {
+            console.log(">>>>>>>>>>>>>>>", event.data);
+            if(event.data &&  event.data.design){
+              $rootScope.itemDetailsBackgroundImage =  event.data.design.secListBGImage;
+              if (!$rootScope.$$phase)$rootScope.$digest();
+            }
+          }
+        });
 
       }]);
 })(window.angular);
