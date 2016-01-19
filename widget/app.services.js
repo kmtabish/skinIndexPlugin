@@ -60,7 +60,6 @@
       var viewMap = {};
       return {
         push: function (view) {
-          console.log("^^^^^^^^^^^^^^^^^");
           if (viewMap[view.template]) {
             this.pop();
           } else {
