@@ -44,6 +44,7 @@
                     console.info('init success result:', result);
                     if (result) {
                         DesignHome.data = result.data;
+                        background.loadbackground(DesignHome.data.design.secListBGImage);
                         if (!DesignHome.data.design)
                             DesignHome.data.design = {};
                     }
