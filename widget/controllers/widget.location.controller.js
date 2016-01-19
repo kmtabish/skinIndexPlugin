@@ -36,12 +36,17 @@
           });
         };
 
-        WidgetLocation.setLocation = function (data) {
+        WidgetLocation.setLocation = function (data, redirectToNext) {
           WidgetLocation.success = function (result) {
             if (result) {
               WidgetLocation.data = result.data;
               if (!WidgetLocation.data.widget)
                 WidgetLocation.data.widget = {};
+              if (redirectToNext) {
+                ViewStack.push({
+                  template: 'Weather'
+                });
+              }
             }
           };
           WidgetLocation.error = function (err) {
@@ -65,22 +70,22 @@
               var locationPromise = Location.getCurrentLocation();
               locationPromise.then(function (response) {
                 var geocoder = new google.maps.Geocoder;
-                var latitude=parseFloat(response.coords.latitude);
-                    var longitude=parseFloat(response.coords.longitude);
+                var latitude = parseFloat(response.coords.latitude);
+                var longitude = parseFloat(response.coords.longitude);
                 var latlng = {
                   lat: latitude,
                   lng: longitude
                 };
-                var latLngArray=[latitude,longitude]
+                var latLngArray = [latitude, longitude];
                 geocoder.geocode({'location': latlng}, function (results, status) {
                   if (status === google.maps.GeocoderStatus.OK) {
                     if (results[1]) {
                       console.log(results[1].formatted_address);
                       WidgetLocation.currentLocation = results[1].formatted_address;
                       WidgetLocation.setLocation({
-                        location:  WidgetLocation.currentLocation,
-                        location_coordinates : latLngArray
-                      });
+                        location: WidgetLocation.currentLocation,
+                        location_coordinates: latLngArray
+                      }, true);
                       $scope.$digest();
                     } else {
                       console.log('No results found');
