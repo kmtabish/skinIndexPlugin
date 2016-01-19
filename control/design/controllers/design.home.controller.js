@@ -3,17 +3,32 @@
 (function (angular,window) {
     angular
         .module('skinIndexPluginDesign')
-        .controller('DesignHomeCtrl', ['TAG_NAMES','DataStore','$scope', '$timeout', 'Buildfire', function (TAG_NAMES,DataStore,$scope, $timeout, Buildfire) {
+        .controller('DesignHomeCtrl', ['TAG_NAMES','DataStore','$scope', 'Buildfire', function (TAG_NAMES,DataStore,$scope, Buildfire) {
 
-            var DesignHome = this;
-            DesignHome.masterData = null;
-            DesignHome={
-                data :{
+             var DesignHome = this;
+             DesignHome.masterData = null;
+             DesignHome.data={
+
                     design :{
 
-                    }
+
                 }
-            }
+            };
+
+
+            DesignHome.saveData = function (newObj, tag) {
+                if (typeof newObj === 'undefined') {
+                    return;
+                }
+                DesignHome.success = function (result) {
+                    console.info('Saved data result: ', result);
+                    updateMasterItem(newObj);
+                };
+                DesignHome.error = function (err) {
+                    console.error('Error while saving data : ', err);
+                };
+                DataStore.save(newObj, tag).then(DesignHome.success, DesignHome.error);
+            };
 
             var background = new Buildfire.components.images.thumbnail("#background");
 
@@ -56,12 +71,7 @@
                     }
                 };
                 DesignHome.error = function (err) {
-                    if (err && err.code !== STATUS_CODE.NOT_FOUND) {
                         console.error('Error while getting data', err);
-                    }
-                    else if (err && err.code === STATUS_CODE.NOT_FOUND) {
-                        DesignHome.saveData(JSON.parse(angular.toJson(DesignHome.data)), TAG_NAMES.UVO_INFO);
-                    }
                 };
                 DataStore.get(TAG_NAMES.UVO_INFO).then(DesignHome.success, DesignHome.error);
             };
@@ -72,22 +82,6 @@
             function isUnchanged(data) {
                 return angular.equals(data, DesignHome._lastSaved);
             }
-
-            DesignHome.saveData = function (newObj, tag) {
-                if (typeof newObj === 'undefined') {
-                    return;
-                }
-                DesignHome.success = function (result) {
-                    console.info('Saved data result: ', result);
-                    updateMasterItem(newObj);
-                };
-                DesignHome.error = function (err) {
-                    console.error('Error while saving data : ', err);
-                };
-                DataStore.save(newObj, tag).then(DesignHome.success, DesignHome.error);
-            };
-
-
 
             var tmrDelay = null;
             var saveDataWithDelay = function (newObj) {
