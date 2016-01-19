@@ -30,6 +30,14 @@
                 if (!$scope.$$phase && !$scope.$root.$$phase) {
                     $scope.$apply();
                 }
+
+                DesignHome.success=function(response){
+                    console.log(response)
+                }
+                DesignHome.error=function(error){
+                    console.log(error)
+                }
+                DataStore.save(DesignHome, TAG_NAMES.UVO_INFO).then(DesignHome.success, DesignHome.error);
                 // console.log('bg deleted :',url);
             };
 
