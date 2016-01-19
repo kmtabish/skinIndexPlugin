@@ -3,91 +3,104 @@
 (function (angular,window) {
     angular
         .module('skinIndexPluginDesign')
-        .controller('DesignHomeCtrl', ['TAG_NAMES','DataStore','$scope', '$timeout', 'Buildfire','uvoInfo', function (TAG_NAMES,DataStore,$scope, $timeout, Buildfire,uvoInfo) {
+        .controller('DesignHomeCtrl', ['TAG_NAMES','DataStore','$scope', '$timeout', 'Buildfire', function (TAG_NAMES,DataStore,$scope, $timeout, Buildfire) {
 
-            var DesignHome = this,
-                _data = {
+            var DesignHome = this;
+            DesignHome.masterData = null;
 
-                    design: {
-
-                        secListBGImage: ""
-                    }
-                };
             var background = new Buildfire.components.images.thumbnail("#background");
-
-            if (uvoInfo && uvoInfo.data && uvoInfo.data.design) {
-                DesignHome.uvoInfo = uvoInfo;
-                DesignHome._lastSaved = angular.copy(DesignHome.uvoInfo);
-            }
-            else {
-                DesignHome.uvoInfo = {data: angular.copy(_data)};
-                DesignHome._lastSaved = angular.copy(DesignHome.uvoInfo);
-            }
-
-            if (DesignHome.uvoInfo.data && DesignHome.uvoInfo.data.design && DesignHome.uvoInfo.data.design.secListBGImage) {
-                background.loadbackground(DesignHome.uvoInfo.data.design.secListBGImage);
-            }
-
-            var tmrDelay=null;
-            DesignHome._uvoInfo = new DataStore(TAG_NAMES.UVO_INFO);
 
             background.onChange = function (url) {
 
-                DesignHome.uvoInfo.data.design.secListBGImage = url;
-                console.log('DesignHomeCtrl bfURL saved :');
-                if (!$scope.$$phase && !$scope.$root.$$phase) {
-                    $scope.$apply();
+                DesignHome.data.design.secListBGImage = url;
+                DesignHome.success=function(response){
+                    console.log(response)
                 }
-
+                DesignHome.error=function(error){
+                    console.log(error)
+                }
+                DataStore.save(DesignHome, TAG_NAMES.UVO_INFO).then(DesignHome.success, DesignHome.error);
                 console.log('bg change :',url);
             };
 
 
 
             background.onDelete = function () {
-                DesignHome.uvoInfo.data.design.secListBGImage = "";
+                DesignHome.data.design.secListBGImage = "";
                 if (!$scope.$$phase && !$scope.$root.$$phase) {
                     $scope.$apply();
                 }
-               // console.log('bg deleted :',url);
+                // console.log('bg deleted :',url);
             };
+
+            function updateMasterItem(data) {
+                DesignHome.masterData = angular.copy(data);
+            }
+
+
+            /*Init method call, it will bring all the pre saved data*/
+            DesignHome.init = function () {
+                DesignHome.success = function (result) {
+                    console.info('init success result:', result);
+                    if (result) {
+                        DesignHome.data = result.data;
+                        if (!DesignHome.data.design)
+                            DesignHome.data.design = {};
+                    }
+                };
+                DesignHome.error = function (err) {
+                    if (err && err.code !== STATUS_CODE.NOT_FOUND) {
+                        console.error('Error while getting data', err);
+                    }
+                    else if (err && err.code === STATUS_CODE.NOT_FOUND) {
+                        DesignHome.saveData(JSON.parse(angular.toJson(DesignHome.data)), TAG_NAMES.UVO_INFO);
+                    }
+                };
+                DataStore.get(TAG_NAMES.UVO_INFO).then(DesignHome.success, DesignHome.error);
+            };
+
+            DesignHome.init();
+
 
             function isUnchanged(data) {
                 return angular.equals(data, DesignHome._lastSaved);
             }
 
-            var updatefn = function (newObj) {
+            DesignHome.saveData = function (newObj, tag) {
+                if (typeof newObj === 'undefined') {
+                    return;
+                }
+                DesignHome.success = function (result) {
+                    console.info('Saved data result: ', result);
+                    updateMasterItem(newObj);
+                };
+                DesignHome.error = function (err) {
+                    console.error('Error while saving data : ', err);
+                };
+                DataStore.save(newObj, tag).then(DesignHome.success, DesignHome.error);
+            };
+
+
+
+            var tmrDelay = null;
+            var saveDataWithDelay = function (newObj) {
                 if (newObj) {
-                    if (tmrDelay) {
-                        clearTimeout(tmrDelay);
-                    }
                     if (isUnchanged(newObj)) {
                         return;
                     }
-                    if (newObj.id) {
-                        tmrDelay = $timeout(function () {
-                            DesignHome._uvoInfo.update(newObj.id, newObj.data).then(function (result) {
-                                DesignHome._lastSaved = angular.copy(DesignHome.uvoInfo);
-                            }, function (err) {
-                                console.log(err);
-                                DesignHome.uvoInfo = angular.copy(DesignHome._lastSaved);
-                            });
-                        }, 500);
-                    } else {
-                        tmrDelay = $timeout(function () {
-                            DesignHome._uvoInfo.save(DesignHome.uvoInfo.data).then(function success(result) {
-                            }, function fail(err) {
-                                console.log(err);
-                            });
-                        }, 500);
+                    if (tmrDelay) {
+                        clearTimeout(tmrDelay);
                     }
+                    tmrDelay = setTimeout(function () {
+                        DesignHome.saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.UVO_INFO);
+                    }, 500);
                 }
             };
 
 
             $scope.$watch(function () {
-                return DesignHome.uvoInfo;
-            }, updatefn, true);
+                return DesignHome.data;
+            }, saveDataWithDelay, true);
 
         }]);
 })(window.angular,window);
