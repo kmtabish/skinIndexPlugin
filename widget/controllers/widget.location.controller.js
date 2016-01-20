@@ -33,9 +33,11 @@
         WidgetLocation.init();
 
         WidgetLocation.getWeatherData = function () {
-          ViewStack.push({
-            template: 'Weather'
-          });
+          if (WidgetLocation.currentLocation){
+            ViewStack.push({
+              template: 'Weather'
+            });
+          }
         };
 
         WidgetLocation.setLocation = function (data, redirectToNext) {
