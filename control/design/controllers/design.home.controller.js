@@ -7,17 +7,15 @@
 
       var DesignHome = this;
       DesignHome.masterData = null;
-      DesignHome.data = {
-        design: {},
-        settings: {}
-      };
 
 
       DesignHome.saveData = function (newObj, tag) {
+          console.log('DesignHome.saveData ---------->',newObj);
         if (typeof newObj === 'undefined') {
           return;
         }
         DesignHome.success = function (result) {
+            console.log('DesignHome.saveData success---------->',result);
           console.info('Saved data result: ', result);
           updateMasterItem(newObj);
         };
@@ -51,6 +49,7 @@
       };
 
       function updateMasterItem(data) {
+          console.log('Design home updateMasterItem---->',data);
         DesignHome.masterData = angular.copy(data);
       }
 
@@ -59,12 +58,14 @@
       DesignHome.init = function () {
         DesignHome.success = function (result) {
           console.info('init success result:', result);
-          if (result && result.data && result.data.design && result.data.design.secListBGImage) {
+          if (result) {
             DesignHome.data = result.data;
+              if (!DesignHome.data.design)
+                  DesignHome.data.design = {};
+                }
+            if (DesignHome.data.design.secListBGImage)
             background.loadbackground(DesignHome.data.design.secListBGImage);
-            if (!DesignHome.data.design)
-              DesignHome.data.design = {};
-          }
+
         };
         DesignHome.error = function (err) {
           console.error('Error while getting data', err);
@@ -76,11 +77,13 @@
 
 
       function isUnchanged(data) {
+          console.log('Design home isUnchanged---->',data);
         return angular.equals(data, DesignHome._lastSaved);
       }
 
       var tmrDelay = null;
       var saveDataWithDelay = function (newObj) {
+          console.log('Design home saveDataWithDelay---->',newObj);
         if (newObj) {
           if (isUnchanged(newObj)) {
             return;
@@ -89,6 +92,7 @@
             clearTimeout(tmrDelay);
           }
           tmrDelay = setTimeout(function () {
+              console.log('Design home saveDataWithDelay---->',newObj);
             DesignHome.saveData(JSON.parse(angular.toJson(newObj)), TAG_NAMES.UVO_INFO);
           }, 500);
         }
@@ -96,6 +100,7 @@
 
 
       $scope.$watch(function () {
+          console.log('  $scope.$watch ----------->');
         return DesignHome.data;
       }, saveDataWithDelay, true);
 
