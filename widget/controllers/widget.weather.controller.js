@@ -51,7 +51,8 @@
 
           };
           if (WidgetWeather.data.widget.location_coordinates && WidgetWeather.data.settings.apiKey)
-            WorldWeatherApi.getWeatherData(WidgetWeather.data.widget.location_coordinates, WidgetWeather.data.settings.apiKey).then(WidgetWeather.successWeather, WidgetWeather.errorWeather);
+            WorldWeatherApi.getWeatherData(WidgetWeather.data.widget.location_coordinates, WidgetWeather.data.settings.apiKey, WidgetWeather.data.settings.type)
+              .then(WidgetWeather.successWeather, WidgetWeather.errorWeather);
         };
 
         WidgetWeather.init();

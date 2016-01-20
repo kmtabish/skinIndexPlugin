@@ -114,17 +114,22 @@
     }])
     .factory('WorldWeatherApi', ['WORLD_WEATHER', '$q', '$http', 'STATUS_CODE', 'STATUS_MESSAGES',
       function (WORLD_WEATHER, $q, $http, STATUS_CODE, STATUS_MESSAGES) {
-        var getWeatherData = function (coordinates, apiKey) {
+        var getWeatherData = function (coordinates, apiKey, type) {
           var deferred = $q.defer();
-          if (!(coordinates && apiKey)) {
+          if (!(coordinates && apiKey && type)) {
             deferred.reject(new Error({
               code: STATUS_CODE.UNDEFINED_DATA,
               message: STATUS_MESSAGES.UNDEFINED_DATA
             }));
           } else {
+            var _url = "";
+            if (type == "premium")
+              _url = "http://api.worldweatheronline.com/premium/v1/weather.ashx?key=" + apiKey + "&q=" + coordinates[0] + "," + coordinates[1] + "&num_of_days=1&format=json";
+            else
+              _url = "http://api.worldweatheronline.com/free/v2/weather.ashx?key=" + apiKey + "&q=" + coordinates[0] + "," + coordinates[1] + "&num_of_days=1&format=json";
             var req = {
               method: 'GET',
-              url: "http://api.worldweatheronline.com/free/v2/weather.ashx?key=" + apiKey + "&q=" + coordinates[0] + "," + coordinates[1] + "&num_of_days=1&format=json"
+              url: _url
             };
             $http(req).then(function (response) {
               // this callback will be called asynchronously
