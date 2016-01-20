@@ -26,4 +26,11 @@
       </div>
     </div>
   </div>
+  <div class="item clearfix row" ng-if="WidgetWeather.data">
+    <div class="main col-md-12">
+      <div class="alert alert-danger alert-sm text-center"
+           ng-if="WidgetWeather.invalidApiKey">Invalid API Key
+      </div>
+    </div>
+  </div>
 </div>

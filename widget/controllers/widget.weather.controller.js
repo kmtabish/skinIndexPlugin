@@ -6,6 +6,8 @@
     .controller('WidgetWeatherCtrl', ['$rootScope', '$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'WorldWeatherApi', 'RECOMMENDATIONS',
       function ($rootScope, $scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, WorldWeatherApi, RECOMMENDATIONS) {
         var WidgetWeather = this;
+        WidgetWeather.invalidApiKey = false;
+
         /*Init method call, it will bring all the pre saved data*/
         WidgetWeather.init = function () {
           WidgetWeather.success = function (result) {
@@ -41,9 +43,15 @@
 
           WidgetWeather.errorWeather = function (error) {
             console.log("Error while fetching weather data ::::::::::::::::", error);
+            WidgetWeather.invalidApiKey = true;
+            setTimeout(function () {
+              WidgetWeather.invalidApiKey = false;
+              $scope.$digest();
+            }, 5000);
+
           };
-          if (WidgetWeather.data.widget.location_coordinates)
-            WorldWeatherApi.getWeatherData(WidgetWeather.data.widget.location_coordinates).then(WidgetWeather.successWeather, WidgetWeather.errorWeather);
+          if (WidgetWeather.data.widget.location_coordinates && WidgetWeather.data.settings.apiKey)
+            WorldWeatherApi.getWeatherData(WidgetWeather.data.widget.location_coordinates, WidgetWeather.data.settings.apiKey).then(WidgetWeather.successWeather, WidgetWeather.errorWeather);
         };
 
         WidgetWeather.init();
