@@ -111,6 +111,7 @@
               WidgetLocation.listeners[i]();
             }
           }
+          DataStore.clearListener();
         });
 
         Buildfire.datastore.onUpdate(function (event) {

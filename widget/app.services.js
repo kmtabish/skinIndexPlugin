@@ -10,6 +10,7 @@
       return Buildfire;
     }])
     .factory("DataStore", ['Buildfire', '$q', 'STATUS_CODE', 'STATUS_MESSAGES', function (Buildfire, $q, STATUS_CODE, STATUS_MESSAGES) {
+      var onUpdateListeners = [];
       return {
         get: function (_tagName) {
           var deferred = $q.defer();
@@ -41,8 +42,8 @@
         },
         onUpdate: function () {
           var deferred = $q.defer();
-          var onUpdateFn = Buildfire.datastore.onUpdate(function (data) {
-            if (!data) {
+          var onUpdateFn = Buildfire.datastore.onUpdate(function (event) {
+            if (!event) {
               return deferred.notify(new Error({
                 code: STATUS_CODE.UNDEFINED_DATA,
                 message: STATUS_MESSAGES.UNDEFINED_DATA
@@ -50,8 +51,15 @@
             } else {
               return deferred.notify(event);
             }
-          });
+          }, true);
+          onUpdateListeners.push(onUpdateFn);
           return deferred.promise;
+        },
+        clearListener: function () {
+          onUpdateListeners.forEach(function (listner) {
+            listner.clear();
+          });
+          onUpdateListeners = [];
         }
       }
     }])
