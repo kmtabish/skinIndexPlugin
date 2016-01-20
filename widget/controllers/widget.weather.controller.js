@@ -3,9 +3,16 @@
 (function (angular) {
   angular
     .module('skinIndexPluginWidget')
-    .controller('WidgetWeatherCtrl', ['$rootScope', '$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'WorldWeatherApi', 'RECOMMENDATIONS',
-      function ($rootScope, $scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, WorldWeatherApi, RECOMMENDATIONS) {
+    .controller('WidgetWeatherCtrl', ['$rootScope', '$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'WorldWeatherApi', 'RECOMMENDATIONS', 'ViewStack',
+      function ($rootScope, $scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, WorldWeatherApi, RECOMMENDATIONS, ViewStack) {
         var WidgetWeather = this;
+        WidgetWeather.invalidApiKey = false;
+
+        WidgetWeather.resetLocation = function () {
+          $rootScope.$broadcast('RESET_LOCATION');
+          ViewStack.pop();
+        };
+
         /*Init method call, it will bring all the pre saved data*/
         WidgetWeather.init = function () {
           WidgetWeather.success = function (result) {
@@ -30,6 +37,7 @@
 
         WidgetWeather.getWeatherData = function () {
           WidgetWeather.successWeather = function (result) {
+            Buildfire.spinner.hide();
             if (result.data && result.data) {
               WidgetWeather.info = result.data.data;
               console.log("Weather data ::::::::::::::::", WidgetWeather.info);
@@ -40,10 +48,20 @@
           };
 
           WidgetWeather.errorWeather = function (error) {
+            Buildfire.spinner.hide();
             console.log("Error while fetching weather data ::::::::::::::::", error);
+            WidgetWeather.invalidApiKey = true;
+            setTimeout(function () {
+              WidgetWeather.invalidApiKey = false;
+              $scope.$digest();
+            }, 5000);
+
           };
-          if (WidgetWeather.data.widget.location_coordinates)
-            WorldWeatherApi.getWeatherData(WidgetWeather.data.widget.location_coordinates).then(WidgetWeather.successWeather, WidgetWeather.errorWeather);
+          if (WidgetWeather.data.widget.location_coordinates && WidgetWeather.data.settings.apiKey) {
+            Buildfire.spinner.show();
+            WorldWeatherApi.getWeatherData(WidgetWeather.data.widget.location_coordinates, WidgetWeather.data.settings.apiKey, WidgetWeather.data.settings.type)
+              .then(WidgetWeather.successWeather, WidgetWeather.errorWeather);
+          }
         };
 
         WidgetWeather.init();

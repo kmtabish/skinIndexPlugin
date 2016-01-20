@@ -10,6 +10,7 @@
       return Buildfire;
     }])
     .factory("DataStore", ['Buildfire', '$q', 'STATUS_CODE', 'STATUS_MESSAGES', function (Buildfire, $q, STATUS_CODE, STATUS_MESSAGES) {
+      var onUpdateListeners = [];
       return {
         get: function (_tagName) {
           var deferred = $q.defer();
@@ -41,8 +42,8 @@
         },
         onUpdate: function () {
           var deferred = $q.defer();
-          var onUpdateFn = Buildfire.datastore.onUpdate(function (data) {
-            if (!data) {
+          var onUpdateFn = Buildfire.datastore.onUpdate(function (event) {
+            if (!event) {
               return deferred.notify(new Error({
                 code: STATUS_CODE.UNDEFINED_DATA,
                 message: STATUS_MESSAGES.UNDEFINED_DATA
@@ -50,8 +51,15 @@
             } else {
               return deferred.notify(event);
             }
-          });
+          }, true);
+          onUpdateListeners.push(onUpdateFn);
           return deferred.promise;
+        },
+        clearListener: function () {
+          onUpdateListeners.forEach(function (listner) {
+            listner.clear();
+          });
+          onUpdateListeners = [];
         }
       }
     }])
@@ -114,17 +122,22 @@
     }])
     .factory('WorldWeatherApi', ['WORLD_WEATHER', '$q', '$http', 'STATUS_CODE', 'STATUS_MESSAGES',
       function (WORLD_WEATHER, $q, $http, STATUS_CODE, STATUS_MESSAGES) {
-        var getWeatherData = function (coordinates) {
+        var getWeatherData = function (coordinates, apiKey, type) {
           var deferred = $q.defer();
-          if (!coordinates) {
+          if (!(coordinates && apiKey && type)) {
             deferred.reject(new Error({
               code: STATUS_CODE.UNDEFINED_DATA,
               message: STATUS_MESSAGES.UNDEFINED_DATA
             }));
           } else {
+            var _url = "";
+            if (type == "premium")
+              _url = "http://api.worldweatheronline.com/premium/v1/weather.ashx?key=" + apiKey + "&q=" + coordinates[0] + "," + coordinates[1] + "&num_of_days=1&format=json";
+            else
+              _url = "http://api.worldweatheronline.com/free/v2/weather.ashx?key=" + apiKey + "&q=" + coordinates[0] + "," + coordinates[1] + "&num_of_days=1&format=json";
             var req = {
               method: 'GET',
-              url: "http://api.worldweatheronline.com/free/v2/weather.ashx?key=" + WORLD_WEATHER.API_KEY + "&q=" + coordinates[0] + "," + coordinates[1] + "&num_of_days=1&format=json"
+              url: _url
             };
             $http(req).then(function (response) {
               // this callback will be called asynchronously

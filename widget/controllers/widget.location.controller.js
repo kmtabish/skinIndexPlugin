@@ -3,9 +3,11 @@
 (function (angular) {
   angular
     .module('skinIndexPluginWidget')
-    .controller('WidgetLocationCtrl', ['$rootScope','$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'ViewStack', 'Location', 'Modals',
-      function ($rootScope,$scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack, Location, Modals) {
+    .controller('WidgetLocationCtrl', ['$rootScope', '$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'ViewStack', 'Location', 'Modals',
+      function ($rootScope, $scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack, Location, Modals) {
         var WidgetLocation = this;
+
+        WidgetLocation.listeners = {};
 
 
         /*Init method call, it will bring all the pre saved data*/
@@ -31,9 +33,11 @@
         WidgetLocation.init();
 
         WidgetLocation.getWeatherData = function () {
-          ViewStack.push({
-            template: 'Weather'
-          });
+          if (WidgetLocation.currentLocation){
+            ViewStack.push({
+              template: 'Weather'
+            });
+          }
         };
 
         WidgetLocation.setLocation = function (data, redirectToNext) {
@@ -59,7 +63,6 @@
           WidgetLocation.currentLocation = WidgetLocation.data.widget.location;
           WidgetLocation.currentCoordinates = WidgetLocation.data.widget.location_coordinates;
           DataStore.save(WidgetLocation.data, TAG_NAMES.UVO_INFO).then(WidgetLocation.success, WidgetLocation.error);
-          $scope.$digest();
         };
 
         WidgetLocation.getCurrentLocation = function () {
@@ -103,14 +106,28 @@
             });
         };
 
-       Buildfire.datastore.onUpdate(function (event) {
+        $scope.$on("$destroy", function () {
+          console.log(">>>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<");
+          for (var i in WidgetLocation.listeners) {
+            if (WidgetLocation.listeners.hasOwnProperty(i)) {
+              WidgetLocation.listeners[i]();
+            }
+          }
+          DataStore.clearListener();
+        });
+
+        Buildfire.datastore.onUpdate(function (event) {
           if (event.tag == TAG_NAMES.UVO_INFO) {
             console.log(">>>>>>>>>>>>>>>", event.data);
-            if(event.data &&  event.data.design){
-              $rootScope.itemDetailsBackgroundImage =  event.data.design.secListBGImage;
+            if (event.data && event.data.design) {
+              $rootScope.itemDetailsBackgroundImage = event.data.design.secListBGImage;
               if (!$rootScope.$$phase)$rootScope.$digest();
             }
           }
+        });
+
+        WidgetLocation.listeners['RESET_LOCATION'] = $rootScope.$on('RESET_LOCATION', function (e) {
+          WidgetLocation.setLocation({});
         });
 
       }]);
