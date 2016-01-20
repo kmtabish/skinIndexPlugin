@@ -6,7 +6,10 @@
     <h4 class="margin-top-five margin-bottom-five">{{WidgetWeather.data.widget.location}}</h4>
     <h5 class="margin-top-five margin-bottom-five">{{WidgetWeather
       .info.current_condition[0].weatherDesc.value}}</h5>
-    <h5 class="margin-top-five margin-bottom-five"><a>Reset Location</a></h5>
+    <h5
+        class="margin-top-five margin-bottom-five"><a
+        ng-click="WidgetWeather.resetLocation()">Reset
+      Location</a></h5>
 
     <div class="dot primaryBackgroundTheme margin-top-twenty">
       <h1 class="margin-zero">{{WidgetWeather.info.weather[0]
