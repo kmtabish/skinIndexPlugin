@@ -1,5 +1,5 @@
 "use strict";
-xdescribe('Unit : Controller - WidgetLocationCtrl', function () {
+describe('Unit : Controller - WidgetLocationCtrl', function () {
 
 // load the controller's module
 
@@ -79,14 +79,13 @@ xdescribe('Unit : Controller - WidgetLocationCtrl', function () {
         });
     });
 
-    describe(' WidgetLocationCtrl.setLocation  should be called ', function () {
-        WidgetLocationCtrl={data:{widget:{location:"" ,location_coordinates:[] }}};
-        it(' WidgetLocationCtrl.setLocation should be called ', function () {
-            WidgetLocationCtrl.setLocation({data:
-            {location: "ASASAS",
-                coordinates :[121,122]}
+    xdescribe(' WidgetLocationCtrl.setLocation  should be called ', function () {
 
-            });
+        it(' WidgetLocationCtrl.setLocation should be called ', function () {
+            WidgetLocationCtrl.setLocation(
+            {location: "ASASAS", coordinates :[121,122]}
+            );
+         //   WidgetLocationCtrl={data:{widget:{location:"" ,location_coordinates:[] }}};
         });
     });
 

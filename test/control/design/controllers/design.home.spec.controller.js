@@ -1,5 +1,5 @@
 describe('Unit : skinIndexPluginDesign design.home.controller.js', function () {
-    var $scope, DesignHome, $rootScope, q, $controller, Buildfire, TAG_NAMES, $timeout;
+    var $scope, DesignHome, $rootScope, q, $controller, Buildfire, TAG_NAMES, $timeout,Datastore;
     beforeEach(module('skinIndexPluginDesign'));
 
     describe('Unit : DataStore Factory returning error of datastore.get inside init', function () {
@@ -25,6 +25,7 @@ describe('Unit : skinIndexPluginDesign design.home.controller.js', function () {
         }));
 
         beforeEach(inject(function (_$rootScope_, _$q_, _$controller_, _Buildfire_, _TAG_NAMES_) {
+            Datastore=jasmine.createSpyObj('Datastore',['save','get']);
             $rootScope = _$rootScope_;
             q = _$q_;
             $scope = $rootScope.$new();
@@ -41,7 +42,8 @@ describe('Unit : skinIndexPluginDesign design.home.controller.js', function () {
                 DesignHome = $injector.get('$controller')('DesignHomeCtrl', {
                     $scope: $scope,
                     TAG_NAMES: TAG_NAMES,
-                    Buildfire: Buildfire
+                    Buildfire: Buildfire,
+                    Datastore:Datastore
                 });
                 q = $q;
             });
@@ -52,13 +54,35 @@ describe('Unit : skinIndexPluginDesign design.home.controller.js', function () {
 
         });
 
-        describe('UT DesignHome.saveData should be called', function () {
+        describe('UT DesignHome.saveData should be called success', function () {
+            beforeEach(function(){
 
+                Datastore.save.and.callFake(function(){
+                    var defer=q.defer();
+                    defer.resolve({},'');
+                    return defer.promise;
+                });
+            });
             it('DesignHome.saveData should be called', function () {
                 DesignHome.saveData({},"uvoInfo");
+                $scope.$digest();
             });
+        });
 
 
+        describe('UT DesignHome.saveData should be called failure', function () {
+            beforeEach(function(){
+
+                Datastore.save.and.callFake(function(){
+                    var defer=q.defer();
+                    defer.reject({});
+                    return defer.promise;
+                });
+            });
+            it('DesignHome.saveData should be called', function () {
+                DesignHome.saveData({},"uvoInfo");
+                $scope.$digest();
+            });
         });
     });
     describe('Unit : DataStore Factory returning success of datastore.get inside init with data or success if part execution', function () {
@@ -87,6 +111,7 @@ describe('Unit : skinIndexPluginDesign design.home.controller.js', function () {
         }));
 
         beforeEach(inject(function (_$rootScope_, _$q_, _$controller_, _Buildfire_, _TAG_NAMES_) {
+            Datastore=jasmine.createSpyObj('Datastore',['save','get']);
             $rootScope = _$rootScope_;
             q = _$q_;
             $scope = $rootScope.$new();
@@ -103,13 +128,35 @@ describe('Unit : skinIndexPluginDesign design.home.controller.js', function () {
                 DesignHome = $injector.get('$controller')('DesignHomeCtrl', {
                     $scope: $scope,
                     TAG_NAMES: TAG_NAMES,
-                    Buildfire: Buildfire
+                    Buildfire: Buildfire,
+                    Datastore:Datastore
                 });
                 q = $q;
             });
         });
-        it('Design Home Controller should be defined', function () {
+
+
+
+        it('Design Home Controller should be defined success', function () {
+            Datastore.save.and.callFake(function(){
+                var defer=q.defer();
+                defer.resolve({},'');
+                return defer.promise;
+            });
+
             expect(DesignHome).toBeDefined();
+            $scope.$digest();
+        });
+
+        it('Design Home Controller should be defined failure', function () {
+            Datastore.save.and.callFake(function(){
+                var defer=q.defer();
+                defer.reject('');
+                return defer.promise;
+            });
+
+            expect(DesignHome).toBeDefined();
+            $scope.$digest();
         });
     });
     describe('Unit : DataStore Factory returning success of datastore.get inside init with no data or success else part execution', function () {

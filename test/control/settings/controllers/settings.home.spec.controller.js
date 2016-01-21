@@ -1,5 +1,5 @@
 describe('Unit : skinIndexPluginSettings design.home.controller.js', function () {
-    var $scope, settingHome, $rootScope, q, $controller, Buildfire, TAG_NAMES, $timeout;
+    var $scope, settingHome, $rootScope, q, $controller, Buildfire, TAG_NAMES, $timeout,Datastore;
     beforeEach(module('skinIndexPluginSettings'));
 
     describe('Unit : DataStore Factory returning error of datastore.get inside init', function () {
@@ -25,12 +25,14 @@ describe('Unit : skinIndexPluginSettings design.home.controller.js', function ()
         }));
 
         beforeEach(inject(function (_$rootScope_, _$q_, _$controller_, _Buildfire_, _TAG_NAMES_) {
+            Datastore=jasmine.createSpyObj('Datastore',['save','get']);
             $rootScope = _$rootScope_;
             q = _$q_;
             $scope = $rootScope.$new();
             $controller = _$controller_;
             TAG_NAMES = _TAG_NAMES_;
             Buildfire = _Buildfire_;
+
         }));
 
         beforeEach(function () {
@@ -41,21 +43,76 @@ describe('Unit : skinIndexPluginSettings design.home.controller.js', function ()
                 settingHome = $injector.get('$controller')('SettingsHomeCtrl', {
                     $scope: $scope,
                     TAG_NAMES: TAG_NAMES,
-                    Buildfire: Buildfire
+                    Buildfire: Buildfire,
+                    Datastore:Datastore
                 });
                 q = $q;
             });
         });
         it('Design Home Controller should be defined', function () {
-            expect(settingHome).toBeDefined();
+            beforeEach(function(){
 
+                Datastore.get.and.callFake(function(){
+                    var defer=q.defer();
+                    defer.resolve({},'');
+                    return defer.promise;
+                });
+            });
+
+            expect(settingHome).toBeDefined();
+            $scope.$digest();
 
         });
 
-        describe('UT settingHome.saveData should be called', function () {
+        it('Design Home Controller should be defined', function () {
+            beforeEach(function(){
+
+                Datastore.get.and.callFake(function(){
+                    var defer=q.defer();
+                    defer.reject({});
+                    return defer.promise;
+                });
+            });
+
+            expect(settingHome).toBeDefined();
+            settingHome.data={
+
+            };
+            $scope.$digest();
+
+        });
+
+        describe('UT settingHome.saveData should be called success', function () {
+
+            beforeEach(function(){
+
+                Datastore.save.and.callFake(function(){
+                    var defer=q.defer();
+                    defer.resolve({});
+                    return defer.promise;
+                });
+            });
 
             it('settingHome.saveData should be called', function () {
                 settingHome.saveData({},"uvoInfo");
+                $scope.$digest();
+            });
+        });
+
+        describe('UT settingHome.saveData should be called failure', function () {
+
+            beforeEach(function(){
+
+                Datastore.save.and.callFake(function(){
+                    var defer=q.defer();
+                    defer.reject();
+                    return defer.promise;
+                });
+            });
+
+            it('settingHome.saveData should be called', function () {
+                settingHome.saveData({},"uvoInfo");
+                $scope.$digest();
             });
 
 
