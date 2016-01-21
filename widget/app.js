@@ -36,7 +36,11 @@
                 _el.focus();
 
                 var newScope = $rootScope.$new();
-                var _newView = '<div  id="' + view.template + '" ><div class="slide content" data-back-img="{{itemDetailsBackgroundImage}}" ng-include="\'templates/' + view.template + '.html\'"></div></div>';
+                if(view.template=="Location"){
+                  var _newView = '<div  id="' + view.template + '" ><div class="slide content"  ng-include="\'templates/' + view.template + '.html\'"></div></div>';
+                }else{
+                  var _newView = '<div  id="' + view.template + '" ><div class="slide content" data-back-img="{{itemDetailsBackgroundImage}}" ng-include="\'templates/' + view.template + '.html\'"></div></div>';
+                }
                 var parTpl = $compile(_newView)(newScope);
 
                 $(elem).append(parTpl);
