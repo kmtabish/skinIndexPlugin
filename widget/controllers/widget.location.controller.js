@@ -83,7 +83,7 @@
                 geocoder.geocode({'location': latlng}, function (results, status) {
                   if (status === google.maps.GeocoderStatus.OK) {
                     if (results[1]) {
-                      console.log(results[1]);
+                      console.log('Modals.showMoreOptionsModal',results[1]);
                       WidgetLocation.currentLocation = results[1].formatted_address;
                       WidgetLocation.setLocation({
                         location: WidgetLocation.currentLocation,
