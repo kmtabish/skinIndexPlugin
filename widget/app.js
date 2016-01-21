@@ -36,14 +36,24 @@
                 _el.focus();
 
                 var newScope = $rootScope.$new();
+                var _newView;
                 if(view.template=="Location"){
-                  var _newView = '<div  id="' + view.template + '" ><div class="slide content"  ng-include="\'templates/' + view.template + '.html\'"></div></div>';
+                  _newView = '<div  id="' + view.template + '" ><div class="slide content ng-enter ng-enter-active"  ng-include="\'templates/' + view.template + '.html\'"></div></div>';
                 }else{
-                  var _newView = '<div  id="' + view.template + '" ><div class="slide content" data-back-img="{{itemDetailsBackgroundImage}}" ng-include="\'templates/' + view.template + '.html\'"></div></div>';
+                  _newView = '<div  id="' + view.template + '" ><div class="slide infopage content ng-enter ng-enter-active" data-back-img="{{itemDetailsBackgroundImage}}" ng-include="\'templates/' + view.template + '.html\'"></div></div>';
                 }
                 var parTpl = $compile(_newView)(newScope);
 
                 $(elem).append(parTpl);
+
+                setTimeout(function() {
+                  var _el = $(elem).find("#" + view.template).find(".slide").eq(0);
+                  var _el2 = $(elem).find("#" + view.template).find(".infopage").eq(0);
+                  console.log(_el);
+                  _el.removeClass("ng-enter");
+                  _el2.removeClass("ng-enter");
+                  newScope.$apply();
+                }, 1000);
                 views++;
 
               } else if (type === 'POP') {
