@@ -9,17 +9,17 @@
 
         WidgetLocation.listeners = {};
 
-
         /*Init method call, it will bring all the pre saved data*/
         WidgetLocation.init = function () {
           WidgetLocation.success = function (result) {
             console.info('init success result:', result);
             if (result) {
               WidgetLocation.data = result.data;
-              if (!WidgetLocation.data.widget)
-                WidgetLocation.data.widget = {};
-              if (WidgetLocation.data.widget.location)
-                WidgetLocation.currentLocation = WidgetLocation.data.widget.location;
+              var loc = JSON.parse(localStorage.getItem('LocationObject'));
+              if (loc) {
+                WidgetLocation.currentLocation = loc.location;
+                WidgetLocation.currentCoordinates = loc.coordinates;
+              }
             }
           };
           WidgetLocation.error = function (err) {
@@ -33,7 +33,7 @@
         WidgetLocation.init();
 
         WidgetLocation.getWeatherData = function () {
-          if (WidgetLocation.currentLocation){
+          if (WidgetLocation.currentLocation) {
             ViewStack.push({
               template: 'Weather'
             });
@@ -41,28 +41,19 @@
         };
 
         WidgetLocation.setLocation = function (data, redirectToNext) {
-          WidgetLocation.success = function (result) {
-            if (result) {
-              WidgetLocation.data = result.data;
-              if (!WidgetLocation.data.widget)
-                WidgetLocation.data.widget = {};
-              if (redirectToNext) {
-                ViewStack.push({
-                  template: 'Weather'
-                });
-              }
-            }
-          };
-          WidgetLocation.error = function (err) {
-            console.error('Error while saving data:', err);
-          };
-          WidgetLocation.data.widget = {
-            location: data.location,
-            location_coordinates: data.coordinates
-          };
-          WidgetLocation.currentLocation = WidgetLocation.data.widget.location;
-          WidgetLocation.currentCoordinates = WidgetLocation.data.widget.location_coordinates;
-          DataStore.save(WidgetLocation.data, TAG_NAMES.UVO_INFO).then(WidgetLocation.success, WidgetLocation.error);
+          if (data) {
+            WidgetLocation.currentLocation = data.location;
+            WidgetLocation.currentCoordinates = data.coordinates;
+            localStorage.setItem('LocationObject', JSON.stringify(data));
+          }
+
+          if (redirectToNext) {
+            ViewStack.push({
+              template: 'Weather'
+            });
+          }
+          console.log("++++", redirectToNext, data);
+          $scope.$digest();
         };
 
         WidgetLocation.getCurrentLocation = function () {
@@ -83,7 +74,6 @@
                 geocoder.geocode({'location': latlng}, function (results, status) {
                   if (status === google.maps.GeocoderStatus.OK) {
                     if (results[1]) {
-                      console.log('Modals.showMoreOptionsModal',results[1]);
                       WidgetLocation.currentLocation = results[1].formatted_address;
                       WidgetLocation.setLocation({
                         location: WidgetLocation.currentLocation,
