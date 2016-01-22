@@ -19,10 +19,10 @@
             console.info('init success result:', result);
             if (result) {
               WidgetWeather.data = result.data;
-              if (!WidgetWeather.data.widget)
-                WidgetWeather.data.widget = {};
-              if (WidgetWeather.data.widget.location) {
-                WidgetWeather.currentLocation = WidgetWeather.data.widget.location;
+              var loc = JSON.parse(localStorage.getItem('LocationObject'));
+              if (loc) {
+                WidgetWeather.currentLocation = loc.location;
+                WidgetWeather.currentCoordinates = loc.coordinates;
                 WidgetWeather.getWeatherData();
               }
             }
@@ -57,9 +57,10 @@
             }, 5000);
 
           };
-          if (WidgetWeather.data.widget.location_coordinates && WidgetWeather.data.settings.apiKey) {
+          if (WidgetWeather.currentCoordinates && WidgetWeather.data.settings.apiKey && WidgetWeather.data.settings.type) {
+            console.log("444444444444444444444444", WidgetWeather.currentCoordinates , WidgetWeather.data.settings.apiKey , WidgetWeather.data.settings.type);
             Buildfire.spinner.show();
-            WorldWeatherApi.getWeatherData(WidgetWeather.data.widget.location_coordinates, WidgetWeather.data.settings.apiKey, WidgetWeather.data.settings.type)
+            WorldWeatherApi.getWeatherData(WidgetWeather.currentCoordinates, WidgetWeather.data.settings.apiKey, WidgetWeather.data.settings.type)
               .then(WidgetWeather.successWeather, WidgetWeather.errorWeather);
           }
         };
