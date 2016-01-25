@@ -109,3 +109,7 @@
 	width:100%;
 	padding:5px 5px 4px;
 }
+
+.pac-item span {
+    color: black !important;
+}
