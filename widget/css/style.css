@@ -51,7 +51,7 @@
 }
 .skin-index.step3 .dot h1{
 	font-size:85px;
-	line-height:94px;
+	line-height:80px;
 }
 .skin-index.step3 h1{
 	font-size:56px;
@@ -108,4 +108,8 @@
 	display:block;
 	width:100%;
 	padding:5px 5px 4px;
+}
+
+.pac-item span {
+    color: black !important;
 }
