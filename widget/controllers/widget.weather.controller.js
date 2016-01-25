@@ -41,9 +41,11 @@
             if (result.data && result.data) {
               WidgetWeather.info = result.data.data;
               console.log("Weather data ::::::::::::::::", WidgetWeather.info);
-              WidgetWeather.info.condition = RECOMMENDATIONS[WidgetWeather.info.weather[0].uvIndex].condition;
-              WidgetWeather.info.title = RECOMMENDATIONS[WidgetWeather.info.weather[0].uvIndex].title;
-              WidgetWeather.info.steps = RECOMMENDATIONS[WidgetWeather.info.weather[0].uvIndex].steps;
+              if (WidgetWeather.info.weather && WidgetWeather.info.weather.length) {
+                WidgetWeather.info.condition = RECOMMENDATIONS[WidgetWeather.info.weather[0].uvIndex].condition;
+                WidgetWeather.info.title = RECOMMENDATIONS[WidgetWeather.info.weather[0].uvIndex].title;
+                WidgetWeather.info.steps = RECOMMENDATIONS[WidgetWeather.info.weather[0].uvIndex].steps;
+              }
             }
           };
 
@@ -58,7 +60,6 @@
 
           };
           if (WidgetWeather.currentCoordinates && WidgetWeather.data.settings.apiKey && WidgetWeather.data.settings.type) {
-            console.log("444444444444444444444444", WidgetWeather.currentCoordinates , WidgetWeather.data.settings.apiKey , WidgetWeather.data.settings.type);
             Buildfire.spinner.show();
             WorldWeatherApi.getWeatherData(WidgetWeather.currentCoordinates, WidgetWeather.data.settings.apiKey, WidgetWeather.data.settings.type)
               .then(WidgetWeather.successWeather, WidgetWeather.errorWeather);

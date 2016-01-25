@@ -33,7 +33,7 @@
         WidgetLocation.init();
 
         WidgetLocation.getWeatherData = function () {
-          if (WidgetLocation.currentLocation) {
+          if (JSON.parse(localStorage.getItem('LocationObject'))) {
             ViewStack.push({
               template: 'Weather'
             });
@@ -119,6 +119,45 @@
         WidgetLocation.listeners['RESET_LOCATION'] = $rootScope.$on('RESET_LOCATION', function (e) {
           WidgetLocation.setLocation({});
         });
+
+        $scope.$watch('WidgetLocation.currentLocation', function (newValue, oldValue) {
+
+        });
+        /*
+         * create an artificial delay so api isnt called on every character entered
+         * */
+        var tmrDelay = null;
+        var saveLocationWithDelay = function (newValue, oldValue) {
+          if (newValue) {
+            if (newValue == oldValue) {
+              return;
+            }
+            if (tmrDelay) {
+              clearTimeout(tmrDelay);
+            }
+            tmrDelay = setTimeout(function () {
+              var geocoder = new google.maps.Geocoder();
+              geocoder.geocode({"address": newValue}, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                  var lat = results[0].geometry.location.lat(),
+                    lng = results[0].geometry.location.lng();
+                  WidgetLocation.setLocation({
+                    location: newValue,
+                    coordinates: [lng, lat]
+                  });
+                }
+                else {
+                  localStorage.setItem('LocationObject', null);
+                  console.log("Invalid location");
+                }
+              });
+            }, 500);
+          }
+        };
+
+        $scope.$watch(function () {
+          return WidgetLocation.currentLocation;
+        }, saveLocationWithDelay, true);
 
       }]);
 })(window.angular);
