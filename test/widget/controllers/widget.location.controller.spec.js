@@ -3,13 +3,13 @@ describe('Unit : Controller - WidgetLocationCtrl', function () {
 
 // load the controller's module
 
-    var WidgetLocationCtrl,$timeout, $q,scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack, $rootScope,uvoInfo,Modals;
+    var WidgetLocationCtrl,$timeout, $q,scope, Buildfire, Datastore, TAG_NAMES, STATUS_CODE, ViewStack, $rootScope,uvoInfo,Modals;
 
     beforeEach(module('skinIndexPluginWidget'));
 
     beforeEach(inject(function ($controller,_$timeout_, _$q_, _Buildfire_, _DataStore_, _TAG_NAMES_, _STATUS_CODE_, _ViewStack_, _$rootScope_,_Modals_) {
 
-
+        Datastore=jasmine.createSpyObj('Datastore',['save','get']);
         scope = _$rootScope_.$new();
         $timeout : _$timeout_
         $q = _$q_;
@@ -20,7 +20,7 @@ describe('Unit : Controller - WidgetLocationCtrl', function () {
         WidgetLocationCtrl = $controller('WidgetLocationCtrl', {
 
             TAG_NAMES:_TAG_NAMES_,
-            DB:_DataStore_,
+            DB: Datastore,
             $scope: scope,
             Buildfire: {
                 datastore: {
@@ -38,8 +38,6 @@ describe('Unit : Controller - WidgetLocationCtrl', function () {
             }
 
         });
-        DataStore=jasmine.createSpyObj('DataStore', ['get']);
-
 
     }));
 
@@ -48,16 +46,17 @@ describe('Unit : Controller - WidgetLocationCtrl', function () {
 
     describe('Units: units should be Defined', function () {
         beforeEach(function(){
-            DataStore.get.and.callFake(function(){
-                var deferred = $q.defer();
-                deferred.resolve ( deferred.promise);
-                return deferred.promise;
-            });
-            scope.$digest();
+
         })
         it('it should pass if ContentHome is defined', function () {
-            expect(WidgetLocationCtrl).toBeDefined();
+            Datastore.get.and.callFake(function(){
+                var deferred = $q.defer();
+                deferred.resolve ({});
+                return deferred.promise;
+            });
 
+            expect(WidgetLocationCtrl).toBeDefined();
+            scope.$digest();
         });
 
     });
@@ -76,15 +75,28 @@ describe('Unit : Controller - WidgetLocationCtrl', function () {
 
         it(' WidgetLocationCtrl.getWeatherData should be called ', function () {
             WidgetLocationCtrl.getWeatherData();
+
         });
     });
 
-    xdescribe(' WidgetLocationCtrl.setLocation  should be called ', function () {
-
+    describe(' WidgetLocationCtrl.setLocation  should be called ', function () {
+        beforeEach(function(){
+            Datastore.save.and.callFake(function(){
+                var defer=q.defer();
+                defer.resolve({},'');
+                return defer.promise;
+            });
+        });
         it(' WidgetLocationCtrl.setLocation should be called ', function () {
+            WidgetLocationCtrl.data={
+                widget:{
+
+                }
+            }
             WidgetLocationCtrl.setLocation(
             {location: "ASASAS", coordinates :[121,122]}
             );
+            scope.$digest();
          //   WidgetLocationCtrl={data:{widget:{location:"" ,location_coordinates:[] }}};
         });
     });
