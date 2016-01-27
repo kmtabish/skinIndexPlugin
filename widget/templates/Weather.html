@@ -1,29 +1,29 @@
 <div class="holder padding-zero" ng-controller="WidgetWeatherCtrl as
      WidgetWeather">
   <div class="skin-index text-center step3" ng-if="WidgetWeather.info && WidgetWeather.info.weather">
-    <h1 class="margin-bottom-five">{{WidgetWeather.info
+    <h1 class="margin-bottom-five headerTextTheme">{{WidgetWeather.info
       .current_condition[0].FeelsLikeF}}<span>&deg;</span></h1>
-    <h4 class="margin-top-five margin-bottom-five">{{WidgetWeather.currentLocation}}</h4>
-    <h5 class="margin-top-five margin-bottom-five">{{WidgetWeather
+    <h4 class="margin-top-five margin-bottom-five headerTextTheme">{{WidgetWeather.currentLocation}}</h4>
+    <h5 class="margin-top-five margin-bottom-five headerTextTheme">{{WidgetWeather
       .info.current_condition[0].weatherDesc.value}}</h5>
     <h5
-        class="margin-top-five margin-bottom-five"><a
+        class="margin-top-five margin-bottom-five headerTextTheme"><a
         ng-click="WidgetWeather.resetLocation()">Reset
       Location</a></h5>
 
     <div class="dot primaryBackgroundTheme margin-top-twenty">
-      <h1 class="whiteTheme margin-zero">{{WidgetWeather.info.weather[0]
+      <h1 class="margin-zero headerTextTheme">{{WidgetWeather.info.weather[0]
         .uvIndex}}</h1>
     </div>
-    <h4 class="margin-top-twenty margin-bottom-five">UV Index:
+    <h4 class="margin-top-twenty margin-bottom-five headerTextTheme">UV Index:
       {{WidgetWeather.info.weather[0].uvIndex}} -
       {{WidgetWeather.info.condition}}</h4>
-    <h5 class="margin-top-five margin-bottom-five">
+    <h5 class="margin-top-five margin-bottom-five headerTextTheme">
       {{WidgetWeather.info.title}}</h5>
 
-    <div class="steps">
+    <div class="steps headerTextTheme">
       <div class="step clearfix" ng-repeat="step in WidgetWeather.info.steps">
-        <span class="whiteTheme num dot pull-left">{{$index + 1}}</span>
+        <span class="headerTextTheme num dot pull-left">{{$index + 1}}</span>
 
         <p>{{step}}</p>
       </div>
@@ -31,14 +31,14 @@
   </div>
   <div class="item clearfix row" ng-if="WidgetWeather.data">
     <div class="main col-md-12">
-      <div class="alert alert-danger alert-sm text-center"
+      <div class="alert alert-danger alert-sm text-center headerTextTheme"
            ng-if="WidgetWeather.invalidApiKey">Invalid API Key
       </div>
     </div>
   </div>
   <div class="item clearfix row" ng-if="WidgetWeather.data">
     <div class="main col-md-12">
-      <div class="alert alert-danger alert-sm text-center"
+      <div class="alert alert-danger alert-sm text-center headerTextTheme"
            ng-if="WidgetWeather.invalidLocation">Please choose more specific
         location for accurate UV index
       </div>
