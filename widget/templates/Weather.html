@@ -12,7 +12,7 @@
       Location</a></h5>
 
     <div class="dot primaryBackgroundTheme margin-top-twenty">
-      <h1 class="margin-zero headerTextTheme">{{WidgetWeather.info.weather[0]
+      <h1 class="margin-zero headerTextTheme" style="color:white !important">{{WidgetWeather.info.weather[0]
         .uvIndex}}</h1>
     </div>
     <h4 class="margin-top-twenty margin-bottom-five headerTextTheme">UV Index:
@@ -25,7 +25,7 @@
       <div class="step clearfix" ng-repeat="step in WidgetWeather.info.steps">
         <span class="headerTextTheme num dot pull-left">{{$index + 1}}</span>
 
-        <p>{{step}}</p>
+        <p class="headerTextTheme">{{step}}</p>
       </div>
     </div>
   </div>
