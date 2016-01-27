@@ -9,19 +9,21 @@ describe('Unit : Controller - WidgetWeatherCtrl', function () {
 
     beforeEach(inject(function ($controller,_$timeout_, _$q_, _Buildfire_, _DataStore_, _TAG_NAMES_, _STATUS_CODE_, _ViewStack_, _$rootScope_,_Modals_) {
 
-
+        ViewStack=jasmine.createSpyObj('ViewStack',['pop','push']);
+        DataStore=jasmine.createSpyObj('DataStore', ['get','save']);
         scope = _$rootScope_.$new();
         $timeout : _$timeout_
         $q = _$q_;
         uvoInfo={};
         Buildfire :_Buildfire_;
         Modals:_Modals_;
-        ViewStack:_ViewStack_
+        ViewStack:ViewStack
         WidgetWeatherCtrl = $controller('WidgetWeatherCtrl', {
 
             TAG_NAMES:_TAG_NAMES_,
             DB:_DataStore_,
             $scope: scope,
+            ViewStack:ViewStack,
             Buildfire: {
                 datastore: {
                     onUpdate: function () {
@@ -40,7 +42,7 @@ describe('Unit : Controller - WidgetWeatherCtrl', function () {
                 }
             }
         });
-        DataStore=jasmine.createSpyObj('DataStore', ['get']);
+
 
 
     }));
@@ -50,18 +52,20 @@ describe('Unit : Controller - WidgetWeatherCtrl', function () {
 
     describe('Units: units should be Defined', function () {
         beforeEach(function(){
+
+        })
+        it('it should pass if ContentHome is defined', function () {
             DataStore.get.and.callFake(function(){
                 var deferred = $q.defer();
                 deferred.resolve ( deferred.promise);
                 return deferred.promise;
             });
-            scope.$digest();
-        })
-        it('it should pass if ContentHome is defined', function () {
+
             expect(WidgetWeatherCtrl).toBeDefined();
+            scope.$digest();
         });
 
-        xit(' WidgetWeatherCtrl.resetLocation should be called', function () {
+        it(' WidgetWeatherCtrl.resetLocation should be called', function () {
             ViewStack.push({template:{}});
             WidgetWeatherCtrl.resetLocation();
 

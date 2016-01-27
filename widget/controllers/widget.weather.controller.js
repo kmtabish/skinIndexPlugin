@@ -7,6 +7,7 @@
       function ($rootScope, $scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, WorldWeatherApi, RECOMMENDATIONS, ViewStack) {
         var WidgetWeather = this;
         WidgetWeather.invalidApiKey = false;
+        WidgetWeather.invalidLocation = false;
 
         WidgetWeather.resetLocation = function () {
           $rootScope.$broadcast('RESET_LOCATION');
@@ -45,6 +46,13 @@
                 WidgetWeather.info.condition = RECOMMENDATIONS[WidgetWeather.info.weather[0].uvIndex].condition;
                 WidgetWeather.info.title = RECOMMENDATIONS[WidgetWeather.info.weather[0].uvIndex].title;
                 WidgetWeather.info.steps = RECOMMENDATIONS[WidgetWeather.info.weather[0].uvIndex].steps;
+              }
+              else{
+                WidgetWeather.invalidLocation = true;
+                setTimeout(function () {
+                  WidgetWeather.invalidLocation = false;
+                  $scope.$digest();
+                }, 5000);
               }
             }
           };

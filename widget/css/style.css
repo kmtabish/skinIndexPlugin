@@ -113,3 +113,6 @@
 .pac-item span {
     color: black !important;
 }
+.pac-item {
+    cursor: pointer;
+}

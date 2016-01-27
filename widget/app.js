@@ -49,7 +49,7 @@
                 setTimeout(function() {
                   parTpl.children("div").eq(0).removeClass("ng-enter");
                   newScope.$apply();
-                }, 100);
+                }, 200);
                 views++;
 
               } else if (type === 'POP') {
