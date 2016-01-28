@@ -116,3 +116,6 @@
 .pac-item {
     cursor: pointer;
 }
+.bg-style-custom{
+	background-size: cover !important;
+}
