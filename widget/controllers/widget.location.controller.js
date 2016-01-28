@@ -120,9 +120,10 @@
           WidgetLocation.setLocation({});
         });
 
-        $scope.$watch('WidgetLocation.currentLocation', function (newValue, oldValue) {
-
+        WidgetLocation.listeners['BEFORE_POP'] = $rootScope.$on('BEFORE_POP', function (e) {
+          Modals.dismiss();
         });
+
         /*
          * create an artificial delay so api isnt called on every character entered
          * */
