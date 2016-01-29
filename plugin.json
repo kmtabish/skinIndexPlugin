@@ -1,7 +1,7 @@
 {
   "author":"BuildFire"
-,"pluginName":"Skin Index"
-,"pluginDescription":"A plugin that uses a public weather API to calculate maximum sun exposure."
+,"pluginName":"UVO"
+,"pluginDescription":"With the UVO plugin, you can find the UV index and associated recommendations for your desired location."
 ,"supportEmail":"support@buildfire.com"
 ,"control":{
   "content":{
