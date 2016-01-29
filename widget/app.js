@@ -142,12 +142,6 @@
           };
           var autocomplete = new google.maps.places.Autocomplete(element[0], options);
 
-          $(document).on({
-            'DOMNodeInserted': function() {
-              $('.pac-item, .pac-item span', this).addClass('needsclick');
-            }
-          }, '.pac-container');
-
           google.maps.event.addListener(autocomplete, 'place_changed', function () {
             var location = autocomplete.getPlace().formatted_address;
             if (autocomplete.getPlace().geometry) {
@@ -174,4 +168,3 @@
         };
       }])
 })(window.angular, window.buildfire);
-
