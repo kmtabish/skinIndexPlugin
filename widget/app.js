@@ -142,15 +142,6 @@
           };
           var autocomplete = new google.maps.places.Autocomplete(element[0], options);
 
-          setTimeout(function () {
-            var _el = $('.pac-container');
-            console.log("^^^^^^^^^^^^^^", _el);
-            _el.on('mousedown', ".pac-item", function (e) {
-              google.maps.event.trigger(autocomplete, 'place_changed');
-              _el.html("");
-            });
-          }, 500);
-
           google.maps.event.addListener(autocomplete, 'place_changed', function () {
             var location = autocomplete.getPlace().formatted_address;
             if (autocomplete.getPlace().geometry) {
