@@ -39,7 +39,7 @@
         WidgetWeather.getWeatherData = function () {
           WidgetWeather.successWeather = function (result) {
             Buildfire.spinner.hide();
-            if (result.data && result.data) {
+            if (result.data && result.data.data) {
               WidgetWeather.info = result.data.data;
               console.log("Weather data ::::::::::::::::", WidgetWeather.info);
               if (WidgetWeather.info.weather && WidgetWeather.info.weather.length) {
