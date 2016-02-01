@@ -3,111 +3,114 @@ describe('Unit : Controller - WidgetLocationCtrl', function () {
 
 // load the controller's module
 
-    var WidgetLocationCtrl,$timeout, $q,scope, Buildfire, Datastore, TAG_NAMES, STATUS_CODE, ViewStack, $rootScope,uvoInfo,Modals;
+  var WidgetLocationCtrl, $timeout, $q, scope, Buildfire, Datastore, TAG_NAMES, STATUS_CODE, ViewStack, $rootScope, uvoInfo, Modals;
 
-    beforeEach(module('skinIndexPluginWidget'));
+  beforeEach(module('skinIndexPluginWidget'));
 
-    beforeEach(inject(function ($controller,_$timeout_, _$q_, _Buildfire_, _DataStore_, _TAG_NAMES_, _STATUS_CODE_, _ViewStack_, _$rootScope_,_Modals_) {
+  beforeEach(inject(function ($controller, _$timeout_, _$q_, _Buildfire_, _DataStore_, _TAG_NAMES_, _STATUS_CODE_, _ViewStack_, _$rootScope_, _Modals_) {
 
-        Datastore=jasmine.createSpyObj('Datastore',['save','get']);
-        scope = _$rootScope_.$new();
-        $timeout : _$timeout_
-        $q = _$q_;
-        uvoInfo={};
-        Buildfire :_Buildfire_;
-        Modals:_Modals_;
+    Datastore = jasmine.createSpyObj('Datastore', ['save', 'get']);
+    scope = _$rootScope_.$new(),
+      $timeout = _$timeout_,
+      $q = _$q_,
+      uvoInfo = {},
+      Buildfire = _Buildfire_,
+      window.google = {
+        maps: {
+          Geocoder: function () {
+            return {geocode: function(){
 
-        WidgetLocationCtrl = $controller('WidgetLocationCtrl', {
+            }}
+          },
+          GeocoderStatus: {OK: ""}
+        }
+      },
+      Modals = _Modals_;
 
-            TAG_NAMES:_TAG_NAMES_,
-            DB: Datastore,
-            $scope: scope,
-            Buildfire: {
-                datastore: {
-                    onUpdate: function () {
+    WidgetLocationCtrl = $controller('WidgetLocationCtrl', {
 
-                    }
-                }
-            },
-            uvoInfo:{
-                data:{
-                    design:{
+      TAG_NAMES: _TAG_NAMES_,
+      DB: Datastore,
+      $scope: scope,
+      Buildfire: {
+        datastore: {
+          onUpdate: function () {
 
-                    }
-                }
-            }
-
-        });
-
-    }));
-
-
-
-
-    describe('Units: units should be Defined', function () {
-        beforeEach(function(){
-
-        })
-        it('it should pass if ContentHome is defined', function () {
-            Datastore.get.and.callFake(function(){
-                var deferred = $q.defer();
-                deferred.resolve ({});
-                return deferred.promise;
-            });
-
-            expect(WidgetLocationCtrl).toBeDefined();
-            scope.$digest();
-        });
+          }
+        }
+      },
+      uvoInfo: {
+        data: {
+          design: {}
+        }
+      }
 
     });
 
+  }));
 
-    describe('Units: units should be Defined', function () {
-        it('it should pass if ContentHome is defined', function () {
 
-            scope.$digest();
-        });
+  describe('Units: units should be Defined', function () {
+    beforeEach(function () {
 
     });
+    it('it should pass if ContentHome is defined', function () {
+      Datastore.get.and.callFake(function () {
+        var deferred = $q.defer();
+        deferred.resolve({});
+        return deferred.promise;
+      });
 
-
-    describe(' WidgetLocationCtrl.getWeatherData  should be called ', function () {
-
-        it(' WidgetLocationCtrl.getWeatherData should be called ', function () {
-            WidgetLocationCtrl.getWeatherData();
-
-        });
+      expect(WidgetLocationCtrl).toBeDefined();
+      scope.$digest();
     });
 
-    describe(' WidgetLocationCtrl.setLocation  should be called ', function () {
-        beforeEach(function(){
-            Datastore.save.and.callFake(function(){
-                var defer=q.defer();
-                defer.resolve({},'');
-                return defer.promise;
-            });
-        });
-        it(' WidgetLocationCtrl.setLocation should be called ', function () {
-            WidgetLocationCtrl.data={
-                widget:{
+  });
 
-                }
-            }
-            WidgetLocationCtrl.setLocation(
-            {location: "ASASAS", coordinates :[121,122]}
-            );
-            scope.$digest();
-         //   WidgetLocationCtrl={data:{widget:{location:"" ,location_coordinates:[] }}};
-        });
+
+  describe('Units: units should be Defined', function () {
+    it('it should pass if ContentHome is defined', function () {
+
+      scope.$digest();
     });
 
-    describe(' WidgetLocationCtrl.getCurrentLocation  should be called ', function () {
-        beforeEach(function(){
+  });
 
-        })
-        it(' WidgetLocationCtrl.getCurrentLocation should be called ', function () {
-            WidgetLocationCtrl.getCurrentLocation({    });
-        });
+
+  describe(' WidgetLocationCtrl.getWeatherData  should be called ', function () {
+
+    it(' WidgetLocationCtrl.getWeatherData should be called ', function () {
+      WidgetLocationCtrl.getWeatherData();
+
     });
+  });
+
+  describe(' WidgetLocationCtrl.setLocation  should be called ', function () {
+    beforeEach(function () {
+      Datastore.save.and.callFake(function () {
+        var defer = q.defer();
+        defer.resolve({}, '');
+        return defer.promise;
+      });
+    });
+    it(' WidgetLocationCtrl.setLocation should be called ', function () {
+      WidgetLocationCtrl.data = {
+        widget: {}
+      };
+      WidgetLocationCtrl.setLocation(
+        {location: "ASASAS", coordinates: [121, 122]}
+      );
+      scope.$digest();
+    });
+  });
+
+  describe(' WidgetLocationCtrl.getCurrentLocation  should be called ', function () {
+    beforeEach(function () {
+
+    });
+    it(' WidgetLocationCtrl.getCurrentLocation should be called ', function () {
+      WidgetLocationCtrl.getCurrentLocation(google);
+    });
+  });
 
 });

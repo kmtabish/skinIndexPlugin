@@ -40,7 +40,7 @@
                 lng = results[0].geometry.location.lng();
               WidgetLocation.setLocation({
                 location: WidgetLocation.currentLocation,
-                coordinates: [lng, lat]
+                coordinates: [lat,lng]
               });
               if (JSON.parse(localStorage.getItem('LocationObject'))) {
                 ViewStack.push({
@@ -78,6 +78,7 @@
             .then(function (data) {
               var locationPromise = Location.getCurrentLocation();
               locationPromise.then(function (response) {
+                console.log("^^^^^^^^^^^^^^^", response);
                 var geocoder = new google.maps.Geocoder;
                 var latitude = parseFloat(response.coords.latitude);
                 var longitude = parseFloat(response.coords.longitude);
