@@ -138,7 +138,7 @@
         scope: {setLocationInController: '&callbackFn'},
         link: function (scope, element, attributes) {
           var options = {
-            types: ['(cities)']
+            types: ['(regions)']
           };
           var autocomplete = new google.maps.places.Autocomplete(element[0], options);
 
