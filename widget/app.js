@@ -155,8 +155,8 @@
             }
           });
 
-          setTimeout(function() {
-            $(".pac-container").on("mousedown", ".pac-item", function(e) {
+          setTimeout(function () {
+            $(".pac-container").on("mousedown", ".pac-item", function (e) {
               e.preventDefault();
               e.stopPropagation();
               $(element).blur();
@@ -165,13 +165,13 @@
         }
       };
     })
-    .directive('disableTap', function($timeout) {
+    .directive('disableTap', function ($timeout) {
       return {
-        link: function() {
-
-          $timeout(function() {
-            document.querySelector('.pac-container').setAttribute('data-tap-disabled', 'true')
-          },500);
+        link: function () {
+          $timeout(function () {
+            if (document.querySelector('.pac-container'))
+              document.querySelector('.pac-container').setAttribute('data-tap-disabled', 'true')
+          }, 500);
         }
       };
     })
