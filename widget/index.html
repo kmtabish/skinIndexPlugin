@@ -14,46 +14,6 @@
   <script src="../../../scripts/angular/angular.min.js"></script>
   <script src="../../../scripts/angular/angular-route.min.js"></script>
   <script src="../../../scripts/angular/ui-bootstrap.min.js"></script>
-  <script type="javascript">
-    buildfire.appearance.attachFastClick = function () {
-      var path;
-      var scripts = document.getElementsByTagName("script");
-      for (var i = 0; i < scripts.length; i++) {
-        if (scripts[i].src.indexOf('buildfire.js') > 0)
-          path = scripts[i].src.replace('buildfire.js', 'fastclick.js');
-        else if (scripts[i].src.indexOf('fastclick.js') > 0) {
-          console.warn('fastclick already attached');
-          return;
-        }
-      }
-      if (!path) {
-        console.error('buildfire.js not found? This should never happen. I cant trust anything anymore.. mommy!');
-        return;
-      }
-      else {
-        var script = document.createElement('script');
-        script.src = path;
-        script.type = "text/javascript";
-        script.onload = function () {
-          console.info('fastclick.js loaded');
-          if (typeof(FastClick) == "undefined")
-            console.error('fastclick undefined');
-          else
-            FastClick.attach(document.body, {excludeNode: '^pac-'});
-        };
-        document.body.appendChild(script);
-      }
-    };
-
-    buildfire.appearance.applyFastClick = function () {
-
-      if (!element)element = document.body;
-      if (typeof(FastClick) == "undefined")
-        console.error('fastclick undefined');
-      else
-        FastClick.attach(element, {excludeNode: '^pac-'});
-    }
-  </script>
 
   <!-- Meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
