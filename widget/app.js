@@ -154,6 +154,14 @@
               });
             }
           });
+
+          setTimeout(function() {
+            $(".pac-container").on("mousedown", ".pac-item", function(e) {
+              e.preventDefault();
+              e.stopPropagation();
+              $(element).blur();
+            });
+          }, 1000);
         }
       };
     })
