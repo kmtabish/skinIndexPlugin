@@ -139,3 +139,7 @@
 .bg-style-custom {
     background-size: cover !important;
 }
+
+.pac-container {
+    z-index: 9999;
+}
