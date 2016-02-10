@@ -157,13 +157,14 @@
         }
       };
     })
-    .directive('disableTap', function ($timeout) {
+    .directive('disableTap', function($timeout) {
       return {
-        link: function () {
-          $timeout(function () {
-            if (document.querySelector('.pac-container'))
-              document.querySelector('.pac-container').setAttribute('data-tap-disabled', 'true')
-          }, 500);
+        link: function() {
+          $timeout(function() {
+            $('.pac-container')
+              .addClass("needsclick")
+              .attr('data-tap-disabled', 'true')
+          },500);
         }
       };
     })
