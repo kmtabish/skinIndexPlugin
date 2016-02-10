@@ -23,7 +23,7 @@
                 console.log("VIEW_CHANGED>>>>>>>>");
                 currentView = ViewStack.getPreviousView();
 
-                var _el = $("<a/>").attr("href", "javascript:void(0)"),
+                /*var _el = $("<a/>").attr("href", "javascript:void(0)"),
                   oldTemplate = $('#' + currentView.template);
 
                 oldTemplate.append(_el);
@@ -34,7 +34,7 @@
 
                 $(document.activeElement).blur();
                 _el.focus();
-
+*/
                 var newScope = $rootScope.$new();
                 var _newView;
                 if (view.template == "Location") {
