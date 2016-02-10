@@ -1,4 +1,0 @@
-var Fastclick = {
-  attach: function () {
-  }
-};
