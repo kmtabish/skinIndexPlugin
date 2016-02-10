@@ -156,6 +156,16 @@
           });
         }
       };
+    }).directive('disableTap', function ($timeout) {
+      return {
+        link: function () {
+          $timeout(function () {
+            $('.pac-container')
+              .addClass("needsclick")
+              .attr('data-tap-disabled', 'true')
+          }, 500);
+        }
+      };
     })
     .run(['Location', '$location', '$rootScope', 'ViewStack',
       function (Location, $location, $rootScope, ViewStack) {
