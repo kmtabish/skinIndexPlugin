@@ -32,6 +32,17 @@
               });
             }
           });
+
+          setTimeout(function() {
+            $("body").find(".pac-container").on("mousedown", ".pac-item", function(e) {
+              console.log("*********************");
+              e.preventDefault();
+              // $("input").blur();
+               document.activeElement.blur();
+              // e.stopPropagation();
+              // $(element).blur();
+            });
+          }, 2000);
         }
       };
     })
