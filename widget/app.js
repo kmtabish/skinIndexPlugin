@@ -157,16 +157,6 @@
         }
       };
     })
-    .directive('disableTap', function ($timeout) {
-      return {
-        link: function () {
-          $timeout(function () {
-            if (document.querySelector('.pac-container'))
-              document.querySelector('.pac-container').setAttribute('data-tap-disabled', 'true')
-          }, 500);
-        }
-      };
-    })
     .run(['Location', '$location', '$rootScope', 'ViewStack',
       function (Location, $location, $rootScope, ViewStack) {
         buildfire.navigation.onBackButtonClick = function () {

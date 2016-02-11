@@ -136,6 +136,10 @@
     pointer-events: none;
 }
 
+.pac-container {
+    z-index: 9999;
+}
+
 .bg-style-custom {
     background-size: cover !important;
 }
