@@ -2,33 +2,35 @@
 <html ng-app="skinIndexPluginWidget">
 <head>
 
-  <!-- JS -->
-  <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
-  <script src="../../../scripts/angular/angular.min.js"></script>
-  <script src="../../../scripts/angular/angular-route.min.js"></script>
-  <script src="../../../scripts/angular/ui-bootstrap.min.js"></script>
-
   <!-- Meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="app.js"></script>
-  <script src="controllers/widget.home.controller.js"></script>
-
   <script
       src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 </head>
 <body>
-<div ng-controller="WidgetHomeCtrl as WidgetHome">
+<div>
   <div>
     <div class="form-holder">
-      <input type="text"
+      <input type="text" id="myAuto"
              class="zip-code border-none form-control headerTextTheme"
-             placeholder="Enter zip code or city"
-             ng-model="WidgetHome.currentLocation"
-             google-location-search
-             callback-fn="WidgetHome.setLocation(data)">
+             placeholder="Enter zip code or city">
       <hr class="small margin-top-zero">
     </div>
   </div>
 </div>
+<script>
+  var options = {
+    types: ['(regions)']
+  };
+  var autocomplete = new google.maps.places.Autocomplete(document.getElementById('myAuto'), options);
+
+  google.maps.event.addListener(autocomplete, 'place_changed', function () {
+    var location = autocomplete.getPlace().formatted_address;
+    if (autocomplete.getPlace().geometry) {
+      var coordinates = [autocomplete.getPlace().geometry.location.lat(), autocomplete.getPlace().geometry.location.lng()];
+      console.log(">>>>>>>>>", location, coordinates);
+    }
+  });
+</script>
 </body>
 </html>
