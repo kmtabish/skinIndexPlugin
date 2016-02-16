@@ -43,7 +43,10 @@
         function (e) {
           console.log("*********************");
           e.preventDefault();
-          document.querySelectorAll("input").blur()
+          var it = document.querySelectorAll("input");
+          for (var i = 0; i < it.length; i++) {
+            it[i].blur()
+          }
         }, false);
   }, 2000);
 </script>
