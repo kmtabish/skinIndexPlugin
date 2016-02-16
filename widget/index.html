@@ -31,6 +31,16 @@
       console.log(">>>>>>>>>", location, coordinates);
     }
   });
+
+  setTimeout(function () {
+    document.querySelector(".pac-container").addEventListener("mousedown",
+        function
+            (e) {
+          console.log("*********************");
+          e.preventDefault();
+          document.activeElement.blur();
+        }, false);
+  }, 2000);
 </script>
 </body>
 </html>
