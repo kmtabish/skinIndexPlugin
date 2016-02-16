@@ -6,6 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script
       src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+
+  <style>
+    .pac-container {
+      z-index: 9999;
+    }
+  </style>
 </head>
 <body>
 <div>
@@ -34,11 +40,10 @@
 
   setTimeout(function () {
     document.querySelector(".pac-container").addEventListener("mousedown",
-        function
-            (e) {
+        function (e) {
           console.log("*********************");
           e.preventDefault();
-          document.activeElement.blur();
+          document.querySelectorAll("input").blur()
         }, false);
   }, 2000);
 </script>
