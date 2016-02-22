@@ -3,12 +3,11 @@ describe('Unit : Controller - WidgetHomeCtrl', function () {
 
 // load the controller's module
 
-    var WidgetHomeCtrl,$timeout, $q,scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack, $rootScope,uvoInfo;
+    var WidgetHomeCtrl,$timeout, $q,scope, Buildfire, Datastore, TAG_NAMES, STATUS_CODE, ViewStack, $rootScope,uvoInfo;
 
     beforeEach(module('skinIndexPluginWidget'));
 
     beforeEach(inject(function ($controller,_$timeout_, _$q_, _Buildfire_, _DataStore_, _TAG_NAMES_, _STATUS_CODE_, _ViewStack_, _$rootScope_) {
-
 
         scope = _$rootScope_.$new();
         $timeout : _$timeout_
@@ -16,9 +15,10 @@ describe('Unit : Controller - WidgetHomeCtrl', function () {
         uvoInfo={};
         Buildfire :_Buildfire_;
 
+        Datastore=jasmine.createSpyObj('Datastore',['save','get']);
 
         WidgetHomeCtrl = $controller('WidgetHomeCtrl', {
-
+            Datastore:Datastore,
             TAG_NAMES:_TAG_NAMES_,
             DB:_DataStore_,
             $scope: scope,
@@ -38,37 +38,21 @@ describe('Unit : Controller - WidgetHomeCtrl', function () {
             }
 
         });
-        DataStore=jasmine.createSpyObj('DataStore', ['get']);
-
 
     }));
 
 
-
-
     describe('Units: units should be Defined', function () {
-        beforeEach(function(){
-            DataStore.get.and.callFake(function(){
-                var deferred = $q.defer();
-                deferred.resolve ( deferred.promise);
-                return deferred.promise;
+
+        it('it should pass if ContentHome is defined', function () {
+            Datastore.get.and.callFake(function(){
+                var defer=q.defer();
+                defer.resolve({},'');
+                return defer.promise;
             });
-            scope.$digest();
-        })
-        it('it should pass if ContentHome is defined', function () {
             expect(WidgetHomeCtrl).toBeDefined();
-
-        });
-
-    });
-
-
-    describe('Units: units should be Defined', function () {
-        it('it should pass if ContentHome is defined', function () {
-
             scope.$digest();
         });
-
     });
 
 

@@ -9,10 +9,16 @@
 
   <!-- JS -->
   <script src="../../../scripts/buildfire.js"></script>
+  <script type="javascript">
+    buildfire.appearance.disableFastClickOnLoad = true;
+  </script>
   <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
   <script src="../../../scripts/angular/angular.min.js"></script>
   <script src="../../../scripts/angular/angular-route.min.js"></script>
   <script src="../../../scripts/angular/ui-bootstrap.min.js"></script>
+  <script type="javascript">
+    buildfire.appearance.disableFastClickOnLoad = true;
+  </script>
 
   <!-- Meta -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,9 +35,11 @@
   <script
       src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
 </head>
-<body class="body-scroll slide ">
-<div ng-controller="WidgetHomeCtrl as WidgetHome" class="slide content relative" data-back-img="{{itemDetailsBackgroundImage}}">
-  <div  ng-include="'templates/Home.html'">
+<body class="body-scroll slide">
+<div ng-controller="WidgetHomeCtrl as WidgetHome"
+     class="slide content relative bg-style-custom"
+     data-back-img="{{itemDetailsBackgroundImage}}">
+  <div ng-include="'templates/Home.html'">
   </div>
 </div>
 <div view-switcher=""></div>

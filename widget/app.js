@@ -37,19 +37,19 @@
 
                 var newScope = $rootScope.$new();
                 var _newView;
-                if(view.template=="Location"){
+                if (view.template == "Location") {
                   _newView = '<div  id="' + view.template + '" ><div class="slide content ng-enter ng-enter-active"  ng-include="\'templates/' + view.template + '.html\'"></div></div>';
-                }else{
+                } else {
                   _newView = '<div  id="' + view.template + '" ><div class="slide infopage content" data-back-img="{{itemDetailsBackgroundImage}}" ng-include="\'templates/' + view.template + '.html\'"></div></div>';
                 }
                 var parTpl = $compile(_newView)(newScope);
 
                 $(elem).append(parTpl);
 
-                setTimeout(function() {
+                setTimeout(function () {
                   parTpl.children("div").eq(0).removeClass("ng-enter");
                   newScope.$apply();
-                }, 100);
+                }, 200);
                 views++;
 
               } else if (type === 'POP') {
@@ -138,13 +138,14 @@
         scope: {setLocationInController: '&callbackFn'},
         link: function (scope, element, attributes) {
           var options = {
-            types: ['(cities)']
+            types: ['(regions)']
           };
           var autocomplete = new google.maps.places.Autocomplete(element[0], options);
+
           google.maps.event.addListener(autocomplete, 'place_changed', function () {
             var location = autocomplete.getPlace().formatted_address;
             if (autocomplete.getPlace().geometry) {
-              var coordinates = [autocomplete.getPlace().geometry.location.lat(),autocomplete.getPlace().geometry.location.lng()];
+              var coordinates = [autocomplete.getPlace().geometry.location.lat(), autocomplete.getPlace().geometry.location.lng()];
               scope.setLocationInController({
                 data: {
                   location: location,
@@ -167,4 +168,3 @@
         };
       }])
 })(window.angular, window.buildfire);
-

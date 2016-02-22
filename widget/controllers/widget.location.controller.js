@@ -33,11 +33,26 @@
         WidgetLocation.init();
 
         WidgetLocation.getWeatherData = function () {
-          if (JSON.parse(localStorage.getItem('LocationObject'))) {
-            ViewStack.push({
-              template: 'Weather'
-            });
-          }
+          var geocoder = new google.maps.Geocoder();
+          geocoder.geocode({"address": WidgetLocation.currentLocation}, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+              var lat = results[0].geometry.location.lat(),
+                lng = results[0].geometry.location.lng();
+              WidgetLocation.setLocation({
+                location: WidgetLocation.currentLocation,
+                coordinates: [lat,lng]
+              });
+              if (JSON.parse(localStorage.getItem('LocationObject'))) {
+                ViewStack.push({
+                  template: 'Weather'
+                });
+              }
+            }
+            else {
+              localStorage.setItem('LocationObject', null);
+              console.log("Invalid location");
+            }
+          });
         };
 
         WidgetLocation.setLocation = function (data, redirectToNext) {
@@ -63,6 +78,7 @@
             .then(function (data) {
               var locationPromise = Location.getCurrentLocation();
               locationPromise.then(function (response) {
+                console.log("^^^^^^^^^^^^^^^", response);
                 var geocoder = new google.maps.Geocoder;
                 var latitude = parseFloat(response.coords.latitude);
                 var longitude = parseFloat(response.coords.longitude);
@@ -120,44 +136,9 @@
           WidgetLocation.setLocation({});
         });
 
-        $scope.$watch('WidgetLocation.currentLocation', function (newValue, oldValue) {
-
+        WidgetLocation.listeners['BEFORE_POP'] = $rootScope.$on('BEFORE_POP', function (e) {
+          Modals.dismiss();
         });
-        /*
-         * create an artificial delay so api isnt called on every character entered
-         * */
-        var tmrDelay = null;
-        var saveLocationWithDelay = function (newValue, oldValue) {
-          if (newValue) {
-            if (newValue == oldValue) {
-              return;
-            }
-            if (tmrDelay) {
-              clearTimeout(tmrDelay);
-            }
-            tmrDelay = setTimeout(function () {
-              var geocoder = new google.maps.Geocoder();
-              geocoder.geocode({"address": newValue}, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                  var lat = results[0].geometry.location.lat(),
-                    lng = results[0].geometry.location.lng();
-                  WidgetLocation.setLocation({
-                    location: newValue,
-                    coordinates: [lng, lat]
-                  });
-                }
-                else {
-                  localStorage.setItem('LocationObject', null);
-                  console.log("Invalid location");
-                }
-              });
-            }, 500);
-          }
-        };
-
-        $scope.$watch(function () {
-          return WidgetLocation.currentLocation;
-        }, saveLocationWithDelay, true);
 
       }]);
 })(window.angular);

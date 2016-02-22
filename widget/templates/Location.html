@@ -3,16 +3,16 @@
      WidgetLocation">
   <div class="skin-index text-left step2" ng-if="WidgetLocation.data">
     <div class="form-holder">
-      <input type="text" class="zip-code border-none form-control"
+      <input type="text" class="zip-code border-none form-control headerTextTheme"
              placeholder="Enter zip code or city"
              ng-model="WidgetLocation.currentLocation"
              google-location-search callback-fn="WidgetLocation.setLocation(data)">
             <span ng-click="WidgetLocation.getWeatherData()"
-                  class="go-link text-primary">Go</span>
+                  class="go-link text-primary headerTextTheme">Go</span>
       <hr class="small margin-top-zero">
     </div>
     <div class="city-list" ng-click="WidgetLocation.getCurrentLocation()" style="cursor: pointer">
-      <p><span class="icon icon-map-marker"></span> Use Current Location</p>
+      <p><span class="icon icon-map-marker headerTextTheme"></span> Use Current Location</p>
     </div>
   </div>
   <!--<div class="message-overlay border-grey border-radius-four">

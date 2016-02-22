@@ -83,6 +83,26 @@
         condition: 'Extreme',
         title: 'Avoid being outdoors',
         steps: ['UVO', 'Sunscreen 30+', 'Hat/Sunglasses', 'Seek Shade']
+      },
+      12: {
+        condition: 'Extreme',
+        title: 'Avoid being outdoors',
+        steps: ['UVO', 'Sunscreen 30+', 'Hat/Sunglasses', 'Seek Shade']
+      },
+      13: {
+        condition: 'Extreme',
+        title: 'Avoid being outdoors',
+        steps: ['UVO', 'Sunscreen 30+', 'Hat/Sunglasses', 'Seek Shade']
+      },
+      14: {
+        condition: 'Extreme',
+        title: 'Avoid being outdoors',
+        steps: ['UVO', 'Sunscreen 30+', 'Hat/Sunglasses', 'Seek Shade']
+      },
+      15: {
+        condition: 'Extreme',
+        title: 'Avoid being outdoors',
+        steps: ['UVO', 'Sunscreen 30+', 'Hat/Sunglasses', 'Seek Shade']
       }
     })
 })(window.angular);
