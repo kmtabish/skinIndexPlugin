@@ -116,18 +116,11 @@
           var img = '';
           if (value) {
             img = $filter("cropImage")(value, $rootScope.deviceWidth, $rootScope.deviceHeight, true);
-            element.attr("style", 'background:url(' + img + ') !important');
-            element.css({
-              'background-size': 'cover',
-              'height': '100%'
-            });
+            element.attr("style", 'background:url(' + img + ') !important; background-size: cover !important;');
           }
           else {
             img = "";
-            element.attr("style", 'background-color:white');
-            element.css({
-              'background-size': 'cover'
-            });
+            element.attr("style", 'background-color:white; background:url(' + img + ') !important; background-size: cover !important;');
           }
         });
       };
