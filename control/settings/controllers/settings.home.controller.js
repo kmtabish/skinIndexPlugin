@@ -3,11 +3,11 @@
 (function (angular, window) {
   angular
     .module('skinIndexPluginSettings')
-    .controller('SettingsHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES','STATUS_CODE','ACCOUNT_TYPE',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE,ACCOUNT_TYPE) {
+    .controller('SettingsHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'ACCOUNT_TYPE',
+      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ACCOUNT_TYPE) {
         var SettingsHome = this;
         SettingsHome.masterData = null;
-        SettingsHome.ACCOUNT_TYPE=ACCOUNT_TYPE;
+        SettingsHome.ACCOUNT_TYPE = ACCOUNT_TYPE;
 
         function updateMasterItem(data) {
           SettingsHome.masterData = angular.copy(data);
@@ -41,12 +41,12 @@
             console.info('init success result:', result);
             if (result) {
               SettingsHome.data = result.data;
-              if (!SettingsHome.data.settings){
+              if (!SettingsHome.data.settings) {
                 SettingsHome.data.settings = {};
               }
 
-              if(!SettingsHome.data.settings.type)
-               SettingsHome.data.settings.type = ACCOUNT_TYPE.FREE;
+              if (!SettingsHome.data.settings.type)
+                SettingsHome.data.settings.type = ACCOUNT_TYPE.FREE;
             }
           };
           SettingsHome.error = function (err) {
@@ -81,6 +81,11 @@
 
         $scope.$watch(function () {
           return SettingsHome.data;
-        }, saveDataWithDelay, true);
+        }, function (newObj, oldObj) {
+          if (oldObj != newObj && oldObj) {
+            console.log("Updated Object:", newObj, oldObj);
+            saveDataWithDelay(newObj);
+          }
+        }, true);
       }]);
 })(window.angular, window);
