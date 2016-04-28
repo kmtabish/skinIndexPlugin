@@ -6,7 +6,7 @@
     .controller('WidgetLocationCtrl', ['$rootScope', '$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'ViewStack', 'Location', 'Modals',
       function ($rootScope, $scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack, Location, Modals) {
         var WidgetLocation = this;
-
+        buildfire.history.push('Location', { elementToShow: 'Location' });
         WidgetLocation.listeners = {};
 
         /*Init method call, it will bring all the pre saved data*/

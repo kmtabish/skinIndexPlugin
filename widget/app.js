@@ -152,12 +152,10 @@
     })
     .run(['Location', '$location', '$rootScope', 'ViewStack',
       function (Location, $location, $rootScope, ViewStack) {
-        buildfire.navigation.onBackButtonClick = function () {
-          if (ViewStack.hasViews()) {
-            ViewStack.pop();
-          } else {
-            buildfire.navigation.navigateHome();
-          }
-        };
+          buildfire.history.onPop(function(err,data){
+              if (ViewStack.hasViews()) {
+                  ViewStack.pop();
+              }
+          });
       }])
 })(window.angular, window.buildfire);

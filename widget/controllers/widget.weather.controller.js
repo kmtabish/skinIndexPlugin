@@ -8,7 +8,7 @@
         var WidgetWeather = this;
         WidgetWeather.invalidApiKey = false;
         WidgetWeather.invalidLocation = false;
-
+        buildfire.history.push('Weather', { elementToShow: 'Weather' });
         WidgetWeather.resetLocation = function () {
           $rootScope.$broadcast('RESET_LOCATION');
           ViewStack.pop();
