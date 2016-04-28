@@ -6,7 +6,20 @@
     .controller('WidgetLocationCtrl', ['$rootScope', '$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE', 'ViewStack', 'Location', 'Modals',
       function ($rootScope, $scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE, ViewStack, Location, Modals) {
         var WidgetLocation = this;
-        buildfire.history.push('Location', { elementToShow: 'Location' });
+        var breadCrumbFlag = true;
+        buildfire.history.get('pluginBreadcrumbsOnly', function (err, result) {
+            if(result && result.length) {
+                result.forEach(function(breadCrumb) {
+                    if(breadCrumb.label == 'Location') {
+                        breadCrumbFlag = false;
+                    }
+                });
+            }
+            if(breadCrumbFlag) {
+                buildfire.history.push('Location', { elementToShow: 'Location' });
+            }
+        });
+
         WidgetLocation.listeners = {};
 
         /*Init method call, it will bring all the pre saved data*/

@@ -8,7 +8,20 @@
         var WidgetWeather = this;
         WidgetWeather.invalidApiKey = false;
         WidgetWeather.invalidLocation = false;
-        buildfire.history.push('Weather', { elementToShow: 'Weather' });
+        var breadCrumbFlag = true;
+        buildfire.history.get('pluginBreadcrumbsOnly', function (err, result) {
+            if(result && result.length) {
+                result.forEach(function(breadCrumb) {
+                    if(breadCrumb.label == 'Weather') {
+                        breadCrumbFlag = false;
+                    }
+                });
+            }
+            if(breadCrumbFlag) {
+                buildfire.history.push('Weather', { elementToShow: 'Weather' });
+            }
+        });
+
         WidgetWeather.resetLocation = function () {
           $rootScope.$broadcast('RESET_LOCATION');
           ViewStack.pop();
