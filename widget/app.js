@@ -9,6 +9,8 @@
        */
       $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|cdvfile|file):/);
 
+      buildfire.datastore.disableRefresh();
+
     }])
     .directive("viewSwitcher", ["ViewStack", "$rootScope", '$compile',
       function (ViewStack, $rootScope, $compile) {
